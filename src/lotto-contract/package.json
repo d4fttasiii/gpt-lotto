@@ -1,6 +1,16 @@
 {
+  "scripts": {
+    "ncu:validate": "npx npm-check-updates",
+    "ncu:update": "npx npm-check-updates -u"
+  },
   "dependencies": {
     "@chainlink/contracts": "^0.6.1",
     "@openzeppelin/contracts": "^4.8.2"
+  },
+  "devDependencies": {
+    "@openzeppelin/test-helpers": "^0.5.16",
+    "chai": "^4.3.7",
+    "hardhat": "^2.13.0",
+    "npm-check-updates": "^16.10.7"
   }
 }

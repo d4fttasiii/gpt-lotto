@@ -8,6 +8,12 @@ import "./interfaces/ILottoToken.sol";
 contract Game is VRFConsumerBase, Ownable {
     using SafeMath for uint256;
 
+    struct Round {
+        uint256 roundId;
+        uint8[] winningNumbers;
+        mapping(uint8 => address[]) winners;
+    }
+
     ILottoToken token;
 
     bytes32 private keyHash;
@@ -16,16 +22,19 @@ contract Game is VRFConsumerBase, Ownable {
 
     uint256 public ticketPrice;
     uint256 public ticketCount;
-    uint256[] public winningNumbers;
+    uint256 public roundId;
+    uint8[] public winningNumbers;
+
     mapping(uint256 => address payable) public tickets;
-    mapping(uint256 => uint256[]) public ticketNumbers;
+    mapping(uint256 => uint8[]) public ticketNumbers;
+    mapping(uint256 => Round) public rounds;
 
     event TicketPurchased(
         address indexed buyer,
         uint256 ticketCount,
-        uint256[] numbers
+        uint8[] numbers
     );
-    event WinningNumbers(uint256[] numbers);
+    event WinningNumbers(uint256 roundId, uint8[] numbers);
     event PrizeClaimed(address indexed winner, uint256 amount);
 
     constructor(
@@ -36,13 +45,15 @@ contract Game is VRFConsumerBase, Ownable {
         bytes32 _keyHash,
         uint256 _fee
     ) VRFConsumerBase(vrfCoordinator, linkToken) {
-        ticketPrice = _ticketPrice;,
+        ticketPrice = _ticketPrice;
         token = ILottoToken(_lottoToken);
         keyHash = _keyHash;
         fee = _fee;
+        roundId = 1;
     }
 
-    function buyTicket(uint256[] memory numbers) public payable {
+    // Buy a ticket with 6 unique numbers, mint a token for the buyer
+    function buyTicket(uint8[] memory numbers) public payable {
         require(msg.value == ticketPrice, "Incorrect ticket price.");
         require(
             numbers.length == 6,
@@ -65,10 +76,11 @@ contract Game is VRFConsumerBase, Ownable {
         ticketNumbers[ticketCount] = numbers;
         emit TicketPurchased(msg.sender, ticketCount, numbers);
 
-         // Mint a token for the user
-        lottoToken.mint(msg.sender, 1);
+        // Mint a token for the user
+        token.mint(msg.sender, 1);
     }
 
+    // Draw winning numbers using Chainlink VRF
     function drawWinningNumbers() public onlyOwner {
         require(ticketCount > 0, "No tickets have been sold.");
         require(
@@ -83,6 +95,7 @@ contract Game is VRFConsumerBase, Ownable {
         requestRandomness(keyHash, fee);
     }
 
+    // Fulfill randomness from Chainlink VRF and distribute prizes
     function fulfillRandomness(
         bytes32 requestId,
         uint256 randomness
@@ -90,11 +103,11 @@ contract Game is VRFConsumerBase, Ownable {
         randomResult = randomness;
 
         // Generate unique winning numbers
-        uint256[] memory usedNumbers = new uint256[](50);
+        uint8[] memory usedNumbers = new uint8[](50);
         uint256 usedCount = 0;
         uint256 generatedNumbers = 0;
         while (generatedNumbers < 6) {
-            uint256 newNumber = (randomResult % 50) + 1;
+            uint8 newNumber = uint8((randomResult % 50) + 1);
             randomResult /= 50;
 
             bool isNumberUsed = false;
@@ -107,16 +120,17 @@ contract Game is VRFConsumerBase, Ownable {
 
             if (!isNumberUsed) {
                 usedNumbers[usedCount++] = newNumber;
-                winningNumbers.push(newNumber);
+                rounds[roundId].winningNumbers.push(newNumber);
                 generatedNumbers++;
             }
         }
-        emit WinningNumbers(winningNumbers);
+        emit WinningNumbers(roundId, rounds[roundId].winningNumbers);
 
         // Calculate and distribute prizes
         distributePrizes();
     }
 
+    // Distribute prizes among the winners
     function distributePrizes() private {
         uint256 prizePool = ticketPrice * ticketCount;
         uint256[] memory winnerTicketIndexes = new uint256[](ticketCount);
@@ -137,18 +151,29 @@ contract Game is VRFConsumerBase, Ownable {
         }
 
         // Send out the prizes to the winners
-        for (uint256 i = 0; i < winnerCount; i++) {
-            uint256 ticketIndex = winnerTicketIndexes[i];
-            uint256 prize = winnerPrizes[i];
-            payable(tickets[ticketIndex]).transfer(prize);
-            emit PrizeClaimed(tickets[ticketIndex], prize);
+        for (uint8 correctGuesses = 6; correctGuesses >= 4; correctGuesses--) {
+            uint256 winnerCount = rounds[roundId]
+                .winners[correctGuesses]
+                .length;
+            uint256 prizePerWinner = calculatePrize(correctGuesses) /
+                winnerCount;
+
+            for (uint256 i = 0; i < winnerCount; i++) {
+                address winner = rounds[roundId].winners[correctGuesses][i];
+                payable(winner).transfer(prizePerWinner);
+                emit PrizeClaimed(winner, prizePerWinner);
+            }
         }
+
+        // Start a new round
+        reset();
     }
 
+    // Get the count of correct guesses for a given ticket
     function getCorrectGuesses(
         uint256 ticketNumber
     ) private view returns (uint256) {
-        uint256[] memory userNumbers = ticketNumbers[ticketNumber];
+        uint8[] memory userNumbers = ticketNumbers[ticketNumber];
         uint256 correctGuesses = 0;
 
         for (uint256 i = 0; i < userNumbers.length; i++) {
@@ -163,6 +188,7 @@ contract Game is VRFConsumerBase, Ownable {
         return correctGuesses;
     }
 
+    // Calculate the prize amount based on the number of correct guesses
     function calculatePrize(
         uint256 correctGuesses
     ) private view returns (uint256) {
@@ -183,6 +209,7 @@ contract Game is VRFConsumerBase, Ownable {
         return 0;
     }
 
+    // Get the count of winners for a specific category (e.g., 6 correct guesses, 5 correct guesses, etc.)
     function getWinnerCount(
         uint256 correctGuesses
     ) private view returns (uint256) {
@@ -195,5 +222,11 @@ contract Game is VRFConsumerBase, Ownable {
         }
 
         return winnerCount;
+    }
+
+    function reset() private {
+        roundId++;
+        ticketCount = 0;
+        winningNumbers = new uint8[](0);
     }
 }
