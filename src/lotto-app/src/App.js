@@ -1,27 +1,31 @@
 // src/App.js
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import SideMenu from './SideMenu';
-import TopBar from './TopBar';
-import Home from './Home';
-import Profile from './Profile';
-import './index.css';
+import React, { useState } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Home from './pages/Home';
+import Profile from './pages/Profile';
+import SideMenu from './components/SideMenu';
+import TopBar from './components/TopBar';
 
 function App() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const handleMenuToggle = () => {
+    setMenuOpen(!menuOpen);
+  };
+
   return (
-    <Router>
-      <div className="flex min-h-screen">
-        <SideMenu />
-        <div className="flex-grow flex flex-col">
-          <TopBar />
-          <div className="container mx-auto p-4 flex-grow">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/profile" element={<Profile />} />
-            </Routes>
-          </div>
+    <BrowserRouter>
+      <div>
+        <TopBar handleMenuToggle={handleMenuToggle} />
+        <div className="mt-16">
+          <SideMenu menuOpen={menuOpen} handleMenuToggle={handleMenuToggle} />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/profile" element={<Profile />} />
+          </Routes>
         </div>
       </div>
-    </Router>
+    </BrowserRouter>
   );
 }
 

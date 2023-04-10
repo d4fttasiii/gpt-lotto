@@ -1,29 +1,29 @@
 // src/components/WalletConnector.js
 import React, { useState } from 'react';
 import { useWeb3React } from '@web3-react/core';
-import { injected } from './web3/connectors';
-import { formatAddress } from './utils/formatAddress';
+import { injectedConnector } from '../web3/lottoContract';
+import { formatAddress } from '../utils/formatAddress';
 
 const WalletConnector = () => {
     const { activate, deactivate, active, account, chainId } = useWeb3React();
     const [showNetworks, setShowNetworks] = useState(false);
 
     const networks = [
-        { id: 1, name: 'Ethereum Mainnet', chainId: 1 },
         { id: 137, name: 'Polygon Mainnet', chainId: 137 },
+        { id: 1337, name: 'Local', chainId: 1337 },
     ];
 
     const handleClick = () => {
         if (active) {
             deactivate();
         } else {
-            activate(injected);
+            activate(injectedConnector);
         }
     };
 
     const switchNetwork = async (newChainId) => {
         try {
-            await injected.getProvider().request({
+            await injectedConnector.getProvider().request({
                 method: 'wallet_switchEthereumChain',
                 params: [{ chainId: `0x${newChainId.toString(16)}` }],
             });
@@ -37,7 +37,7 @@ const WalletConnector = () => {
             {active && (
                 <>
                     <button
-                        className="bg-gray-800 text-white px-4 py-2 rounded"
+                        className="bg-gray-600 text-white px-4 py-2 rounded"
                         onClick={() => setShowNetworks(!showNetworks)}
                     >
                         {networks.find((network) => network.chainId === chainId)?.name}
@@ -47,7 +47,7 @@ const WalletConnector = () => {
                             {networks.map((network) => (
                                 <button
                                     key={network.id}
-                                    className="block w-full text-left px-2 py-1 hover:bg-gray-200 hover:text-black"
+                                    className="block w-full text-white text-left px-2 py-1 hover:bg-gray-200 hover:text-black"
                                     onClick={() => switchNetwork(network.chainId)}
                                 >
                                     {network.name}
@@ -57,7 +57,7 @@ const WalletConnector = () => {
                     )}
                 </>
             )}<button
-                className={`ml-2 ${active ? 'bg-green-600' : 'bg-gray-800'
+                className={`ml-2 ${active ? 'bg-green-600' : 'bg-gray-600'
                     } text-white px-4 py-2 rounded`}
                 onClick={handleClick}
             >

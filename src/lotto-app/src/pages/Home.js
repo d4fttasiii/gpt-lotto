@@ -36,8 +36,9 @@ const Home = () => {
   ];
 
   return (
-    <div>
-      <h2 className="text-2xl font-semibold mb-4">Lotto Game Smart Contract</h2>
+    <div className="container mx-auto px-4">
+      <h1 className="text-4xl font-bold mb-4">Lotto Game Smart Contract</h1>
+
       <p className="mb-2">
         A decentralized lottery game built on the Ethereum blockchain using
         Solidity, OpenZeppelin, and Chainlink VRF for randomness.
