@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import { useWeb3React } from '@web3-react/core';
 import { getLottoContractInstance } from '../web3/lottoContract';
-import { getLibrary } from '../web3/web3';
 
 const BuyTicket = () => {
   const { account, library } = useWeb3React();

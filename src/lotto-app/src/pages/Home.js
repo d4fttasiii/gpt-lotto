@@ -2,9 +2,9 @@
 import React from 'react';
 
 const FeatureCard = ({ title, description }) => (
-  <div className="bg-white p-4 rounded shadow-md flex-1 flex flex-col">
-    <h4 className="text-lg font-semibold mb-2">{title}</h4>
-    <p className="flex-grow">{description}</p>
+  <div className="bg-white p-4 rounded shadow-md flex-1 flex flex-col h-full">
+    <h4 className="text-lg font-semibold mb-2 text-green-600">{title}</h4>
+    <p className="flex-grow text-gray-600">{description}</p>
   </div>
 );
 
@@ -36,16 +36,16 @@ const Home = () => {
   ];
 
   return (
-    <div className="container mx-auto px-4">
-      <h1 className="text-4xl font-bold mb-4">Lotto Game Smart Contract</h1>
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-4xl font-bold mb-8 text-yellow-600">Lotto Game Smart Contract</h1>
 
-      <p className="mb-2">
+      <p className="mb-8 text-xl text-gray-600">
         A decentralized lottery game built on the Ethereum blockchain using
         Solidity, OpenZeppelin, and Chainlink VRF for randomness.
       </p>
 
-      <h3 className="text-xl font-semibold mb-2">Overview</h3>
-      <p className="mb-2">
+      <h3 className="text-2xl font-semibold mb-4 text-green-600">Overview</h3>
+      <p className="mb-8 text-gray-600">
         The Lotto Game Smart Contract allows users to participate in a lottery
         by purchasing tickets with unique numbers. The contract owner can draw
         the winning numbers using a secure random number generator provided by
@@ -53,8 +53,8 @@ const Home = () => {
         the number of correct guesses.
       </p>
 
-      <h3 className="text-xl font-semibold mb-4">Features</h3>
-      <div className="grid grid-cols-3 gap-4 mb-4">
+      <h3 className="text-2xl font-semibold mb-4 text-green-600">Features</h3>
+      <div className="grid grid-cols-3 gap-8 mb-8">
         {features.map((feature, index) => (
           <FeatureCard
             key={index}

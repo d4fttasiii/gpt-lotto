@@ -2,6 +2,8 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 const SideMenu = ({ menuOpen, handleMenuToggle }) => {
   return (
@@ -14,11 +16,11 @@ const SideMenu = ({ menuOpen, handleMenuToggle }) => {
     >
       <div className="bg-gray-800 w-64 fixed top-0 bottom-0 left-0 p-4 space-y-4">
         <button
-        className="absolute top-2 right-4 text-gray-200 hover:text-white"
-        onClick={handleMenuToggle}
-      >
-        &times;
-      </button>
+          className="absolute top-2 right-4 text-gray-200 hover:text-white"
+          onClick={handleMenuToggle}
+        >
+          <FontAwesomeIcon icon={faTimes} size="lg" />
+        </button>
         <NavLink
           to="/"
           className={"text-white block " + (({ isActive, isPending }) => isActive ? "font-bold" : "")}
@@ -27,11 +29,18 @@ const SideMenu = ({ menuOpen, handleMenuToggle }) => {
           Home
         </NavLink>
         <NavLink
-          to="/profile"
+          to="/game"
           className={"text-white block " + (({ isActive, isPending }) => isActive ? "font-bold" : "")}
           onClick={handleMenuToggle}
         >
-          Profile
+          Game
+        </NavLink>
+        <NavLink
+          to="/past-rounds"
+          className={"text-white block " + (({ isActive, isPending }) => isActive ? "font-bold" : "")}
+          onClick={handleMenuToggle}
+        >
+          Past Rounds
         </NavLink>
       </div>
     </CSSTransition>

@@ -2,9 +2,10 @@
 import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
-import Profile from './pages/Profile';
+import Game from './pages/Game';
 import SideMenu from './components/SideMenu';
 import TopBar from './components/TopBar';
+import PastRounds from './pages/PastRounds';
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -21,7 +22,8 @@ function App() {
           <SideMenu menuOpen={menuOpen} handleMenuToggle={handleMenuToggle} />
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/profile" element={<Profile />} />
+            <Route path="/game" element={<Game />} />
+            <Route path="/past-rounds" element={<PastRounds />} />
           </Routes>
         </div>
       </div>
