@@ -57,7 +57,7 @@ const WalletConnector = () => {
                     )}
                 </>
             )}<button
-                className={`ml-2 ${active ? 'bg-green-600' : 'bg-gray-600'
+                className={`ml-2 ${active ? 'bg-green-400' : 'bg-gray-600'
                     } text-white px-4 py-2 rounded`}
                 onClick={handleClick}
             >

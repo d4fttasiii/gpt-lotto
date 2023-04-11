@@ -2,8 +2,10 @@
 import React, { useState } from 'react';
 import { useWeb3React } from '@web3-react/core';
 import { getLottoContractInstance } from '../web3/lottoContract';
+import { useSnackBar } from '../contexts/SnackBarContext';
 
 const TicketForm = () => {
+  const { showSnackBar } = useSnackBar();
   const { account, library } = useWeb3React();
   const [numbers, setNumbers] = useState(Array(6).fill(''));
   const [errorMessage, setErrorMessage] = useState('');
@@ -31,7 +33,7 @@ const TicketForm = () => {
     }
 
     setErrorMessage('');
-    console.log('Ticket purchased with numbers:', uniqueNumbers);
+    showSnackBar('asdasd', 'success');
     // Call your web3 function to purchase the ticket here.
 
     try {

@@ -6,6 +6,7 @@ import Game from './pages/Game';
 import SideMenu from './components/SideMenu';
 import TopBar from './components/TopBar';
 import PastRounds from './pages/PastRounds';
+import { SnackBarProvider } from './contexts/SnackBarContext';
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -15,19 +16,21 @@ function App() {
   };
 
   return (
-    <BrowserRouter>
-      <div>
-        <TopBar handleMenuToggle={handleMenuToggle} />
-        <div className="mt-16">
-          <SideMenu menuOpen={menuOpen} handleMenuToggle={handleMenuToggle} />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/game" element={<Game />} />
-            <Route path="/past-rounds" element={<PastRounds />} />
-          </Routes>
+    <SnackBarProvider>
+      <BrowserRouter>
+        <div>
+          <TopBar handleMenuToggle={handleMenuToggle} />
+          <div className="mt-16">
+            <SideMenu menuOpen={menuOpen} handleMenuToggle={handleMenuToggle} />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/game" element={<Game />} />
+              <Route path="/past-rounds" element={<PastRounds />} />
+            </Routes>
+          </div>
         </div>
-      </div>
-    </BrowserRouter>
+      </BrowserRouter>
+    </SnackBarProvider>
   );
 }
 

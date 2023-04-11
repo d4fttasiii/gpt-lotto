@@ -3,7 +3,7 @@ import React from 'react';
 
 const FeatureCard = ({ title, description }) => (
   <div className="bg-white p-4 rounded shadow-md flex-1 flex flex-col h-full">
-    <h4 className="text-lg font-semibold mb-2 text-green-600">{title}</h4>
+    <h4 className="text-lg font-semibold mb-2 text-green-400">{title}</h4>
     <p className="flex-grow text-gray-600">{description}</p>
   </div>
 );
@@ -44,7 +44,7 @@ const Home = () => {
         Solidity, OpenZeppelin, and Chainlink VRF for randomness.
       </p>
 
-      <h3 className="text-2xl font-semibold mb-4 text-green-600">Overview</h3>
+      <h3 className="text-2xl font-semibold mb-4 text-green-400">Overview</h3>
       <p className="mb-8 text-gray-600">
         The Lotto Game Smart Contract allows users to participate in a lottery
         by purchasing tickets with unique numbers. The contract owner can draw
@@ -53,7 +53,7 @@ const Home = () => {
         the number of correct guesses.
       </p>
 
-      <h3 className="text-2xl font-semibold mb-4 text-green-600">Features</h3>
+      <h3 className="text-2xl font-semibold mb-4 text-green-400">Features</h3>
       <div className="grid grid-cols-3 gap-8 mb-8">
         {features.map((feature, index) => (
           <FeatureCard
