@@ -16,7 +16,7 @@ const SideMenu = ({ menuOpen, handleMenuToggle }) => {
     >
       <div className="bg-gray-800 w-64 fixed top-0 bottom-0 left-0 p-4 space-y-4">
         <button
-          className="absolute top-2 right-4 text-green-400 hover:text-white"
+          className="absolute top-4 right-4 text-green-400 hover:text-white"
           onClick={handleMenuToggle}
         >
           <FontAwesomeIcon icon={faTimes} size="lg" />

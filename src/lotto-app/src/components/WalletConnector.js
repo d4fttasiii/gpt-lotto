@@ -1,5 +1,5 @@
 // src/components/WalletConnector.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useWeb3React } from '@web3-react/core';
 import { injectedConnector } from '../web3/lottoContract';
 import { formatAddress } from '../utils/formatAddress';
@@ -9,9 +9,20 @@ const WalletConnector = () => {
     const [showNetworks, setShowNetworks] = useState(false);
 
     const networks = [
-        { id: 137, name: 'Polygon Mainnet', chainId: 137 },
-        { id: 1337, name: 'Local', chainId: 1337 },
+        { id: 80001, name: 'Polygon Testnet', chainId: 80001 },
     ];
+
+    useEffect(() => {
+        const connectMetaMask = async () => {
+            try {
+                await activate(injectedConnector);
+            } catch (error) {
+                console.error('Failed to connect MetaMask:', error);
+            }
+        };
+
+        connectMetaMask();
+    }, [activate]);
 
     const handleClick = () => {
         if (active) {
@@ -56,7 +67,8 @@ const WalletConnector = () => {
                         </div>
                     )}
                 </>
-            )}<button
+            )}
+            <button
                 className={`ml-2 ${active ? 'bg-green-400' : 'bg-gray-600'
                     } text-white px-4 py-2 rounded`}
                 onClick={handleClick}

@@ -2,17 +2,22 @@ import { Contract } from 'ethers';
 import { InjectedConnector } from '@web3-react/injected-connector';
 
 export const injectedConnector = new InjectedConnector({
-  supportedChainIds: [137],
+  supportedChainIds: [80001],
 });
 
 export const getLottoContractInstance = (library, account) => {
-  return new Contract('your_contract_address_here', [
+  return new Contract('0x8Bd30Ed2C0F8Fbe7006fA3d24f103F2FDd4628Ac', [
     {
       "inputs": [
         {
           "internalType": "uint256",
           "name": "_ticketPrice",
           "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "_lottoToken",
+          "type": "address"
         },
         {
           "internalType": "address",
@@ -93,9 +98,9 @@ export const getLottoContractInstance = (library, account) => {
         },
         {
           "indexed": false,
-          "internalType": "uint256[]",
+          "internalType": "uint8[]",
           "name": "numbers",
-          "type": "uint256[]"
+          "type": "uint8[]"
         }
       ],
       "name": "TicketPurchased",
@@ -106,9 +111,15 @@ export const getLottoContractInstance = (library, account) => {
       "inputs": [
         {
           "indexed": false,
-          "internalType": "uint256[]",
+          "internalType": "uint256",
+          "name": "roundId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint8[]",
           "name": "numbers",
-          "type": "uint256[]"
+          "type": "uint8[]"
         }
       ],
       "name": "WinningNumbers",
@@ -125,7 +136,8 @@ export const getLottoContractInstance = (library, account) => {
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [],
@@ -138,7 +150,8 @@ export const getLottoContractInstance = (library, account) => {
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -167,6 +180,40 @@ export const getLottoContractInstance = (library, account) => {
     },
     {
       "inputs": [],
+      "name": "roundId",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "rounds",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "roundId",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
+      "inputs": [],
       "name": "ticketCount",
       "outputs": [
         {
@@ -176,7 +223,8 @@ export const getLottoContractInstance = (library, account) => {
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -194,13 +242,14 @@ export const getLottoContractInstance = (library, account) => {
       "name": "ticketNumbers",
       "outputs": [
         {
-          "internalType": "uint256",
+          "internalType": "uint8",
           "name": "",
-          "type": "uint256"
+          "type": "uint8"
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [],
@@ -213,7 +262,8 @@ export const getLottoContractInstance = (library, account) => {
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -232,7 +282,8 @@ export const getLottoContractInstance = (library, account) => {
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -258,26 +309,28 @@ export const getLottoContractInstance = (library, account) => {
       "name": "winningNumbers",
       "outputs": [
         {
-          "internalType": "uint256",
+          "internalType": "uint8",
           "name": "",
-          "type": "uint256"
+          "type": "uint8"
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
         {
-          "internalType": "uint256[]",
+          "internalType": "uint8[]",
           "name": "numbers",
-          "type": "uint256[]"
+          "type": "uint8[]"
         }
       ],
       "name": "buyTicket",
       "outputs": [],
       "stateMutability": "payable",
-      "type": "function"
+      "type": "function",
+      "payable": true
     },
     {
       "inputs": [],

@@ -9,7 +9,7 @@ const TopBar = ({ handleMenuToggle }) => {
     <div className="bg-gray-800 w-full h-16 flex justify-between items-center px-4">
       <div className="flex items-center">
         <button
-          className="text-white p-2 text-green-400"
+          className="p-2 text-green-400"
           onClick={handleMenuToggle}
         >
           <FontAwesomeIcon icon={faClover} size="lg" />

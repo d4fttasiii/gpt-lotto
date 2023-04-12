@@ -33,17 +33,13 @@ const TicketForm = () => {
     }
 
     setErrorMessage('');
-    showSnackBar('asdasd', 'success');
-    // Call your web3 function to purchase the ticket here.
 
     try {
       const lottoContractInstance = getLottoContractInstance(library, account);
-      const ticketPrice = await lottoContractInstance.methods.ticketPrice().call();
-      await lottoContractInstance.methods
-        .buyTicket(uniqueNumbers)
-        .send({ from: account, value: ticketPrice });
+      const ticketPrice = await lottoContractInstance.ticketPrice();
+      const tx = await lottoContractInstance.buyTicket(uniqueNumbers, { value: ticketPrice });
 
-      console.log('Ticket purchased successfully');
+      showSnackBar('Ticket purchased', 'success');
     } catch (error) {
       setErrorMessage('Error purchasing ticket: ' + error.message);
     }

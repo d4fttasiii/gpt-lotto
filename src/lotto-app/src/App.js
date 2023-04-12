@@ -6,17 +6,23 @@ import Game from './pages/Game';
 import SideMenu from './components/SideMenu';
 import TopBar from './components/TopBar';
 import PastRounds from './pages/PastRounds';
-import { SnackBarProvider } from './contexts/SnackBarContext';
+import { useWeb3React } from '@web3-react/core';
+import { useSnackBar } from './contexts/SnackBarContext';
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { showSnackBar } = useSnackBar();
+  const { account } = useWeb3React();
 
   const handleMenuToggle = () => {
-    setMenuOpen(!menuOpen);
+    if (!account) {
+      showSnackBar('Metamask wallet needs to be connected first!', 'error');
+    } else {
+      setMenuOpen(!menuOpen);
+    }
   };
 
   return (
-    <SnackBarProvider>
       <BrowserRouter>
         <div>
           <TopBar handleMenuToggle={handleMenuToggle} />
@@ -30,7 +36,6 @@ function App() {
           </div>
         </div>
       </BrowserRouter>
-    </SnackBarProvider>
   );
 }
 

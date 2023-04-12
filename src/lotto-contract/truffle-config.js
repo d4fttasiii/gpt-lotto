@@ -46,6 +46,10 @@
 
 // const HDWalletProvider = require('@truffle/hdwallet-provider');
 
+const HDWalletProvider = require("@truffle/hdwallet-provider");
+const fs = require("fs");
+const ownerPrivateKey = fs.readFileSync(".secret").toString().trim();
+
 module.exports = {
   /**
    * Networks define how you connect to your ethereum client and let you set the
@@ -65,10 +69,18 @@ module.exports = {
     // options below to some value.
     //
     development: {
-     host: "127.0.0.1",     // Localhost (default: none)
-     port: 8545,            // Standard Ethereum port (default: none)
-     network_id: "*",       // Any network (default: none)
+      host: "127.0.0.1",     // Localhost (default: none)
+      port: 8545,            // Standard Ethereum port (default: none)
+      network_id: "*",       // Any network (default: none)
     },
+    mumbai: {
+      provider: () => new HDWalletProvider({
+        privateKeys: [ownerPrivateKey],
+        providerOrUrl: "https://rpc-mumbai.maticvigil.com/",
+        chainId: 80001
+      }),
+      network_id: "*"
+    }
     //
     // An additional network, but with some advanced options…
     // advanced: {
