@@ -1,52 +1,42 @@
-# Lotto Game Smart Contract
+# Game Smart Contract
 
-A decentralized lottery game built on the Ethereum blockchain using Solidity, OpenZeppelin, and Chainlink VRF for randomness.
-
-## Overview
-
-The Lotto Game Smart Contract allows users to participate in a lottery by purchasing tickets with unique numbers. The contract owner can draw the winning numbers using a secure random number generator provided by Chainlink VRF. The prizes are distributed among the winners based on the number of correct guesses.
+The Game smart contract is a decentralized lottery game built on Ethereum using Solidity. It incorporates OpenZeppelin and Chainlink VRF libraries to ensure a secure and fair gameplay experience.
 
 ## Features
+- Buy lottery tickets with unique 6-number combinations
+- Utilize Chainlink VRF for drawing random winning numbers
+- Automated prize distribution based on the number of correct guesses
+- Token holder rewards
+- Configurable ticket pricing
+- Owner-controlled game rounds
 
-- Secure random number generation using Chainlink VRF
-- Users can buy tickets with unique numbers
-- Prize distribution based on the number of correct guesses
-- Minting of Lotto tokens for each ticket purchase
-- Inherits from OpenZeppelin's Ownable contract for secure ownership management
+## Prize Distribution
+The prize distribution in the Game smart contract allocates different portions of the total prize pool to winners based on their number of correct guesses. The breakdown is as follows:
 
-## Functions
+- 6 correct guesses: 50% of the prize pool
+- 5 correct guesses: 25% of the prize pool
+- 4 correct guesses: 10% of the prize pool
 
-### buyTicket(uint256[] memory numbers)
+Additionally:
 
-Allows users to buy a ticket by providing 6 unique numbers between 1 and 50. Users must send the exact ticket price as the transaction value. When a user buys a ticket, a Lotto token is minted and transferred to their address.
+- Contract owner: 10% of the prize pool
+- Token holder rewards: 5% of the prize pool
 
-### drawWinningNumbers()
+The token holder distribution is calculated based on the proportion of tokens held by each participating player relative to the total tokens held by all players who participated in the game.
 
-Can only be called by the contract owner. Initiates the process of drawing the winning numbers using Chainlink VRF. Requires enough LINK tokens in the contract to pay the VRF fee.
+## How to Use
+1. Deploy the smart contract on the Ethereum network
+2. Configure the ticket price and provide the addresses for the LottoToken, VRF Coordinator, and LINK Token
+3. Users can buy tickets by providing 6 unique numbers and paying the ticket price in Ether
+4. The contract owner initiates the draw for winning numbers using Chainlink VRF
+5. The contract owner distributes the prizes based on the number of correct guesses and token holder rewards
 
-### fulfillRandomness(bytes32 requestId, uint256 randomness)
+## Smart Contract Functions
+The smart contract includes the following main functions:
+- `buyTicket(uint8[] memory numbers)`: Buy a ticket with 6 unique numbers
+- `drawWinningNumbers()`: Draw winning numbers using Chainlink VRF
+- `distributePrizes()`: Distribute prizes among winners and token holders
+- `updateTicketPrice(uint256 newTicketPrice)`: Update the ticket price (only callable by the contract owner)
 
-An internal function called by Chainlink VRF when the random number is generated. Generates the winning numbers and calculates the winners' prizes.
-
-### calculatePrize(uint256 correctGuesses)
-
-An internal function that calculates the prize amount based on the number of correct guesses. The function divides the corresponding share of the prize pool by the number of winners for each category, ensuring that each winner gets their fair share.
-
-### getWinnerCount(uint256 correctGuesses)
-
-An internal function that calculates the number of winners for a specific category (e.g., 6 correct guesses, 5 correct guesses, etc.).
-
-## Deployment
-
-To deploy the contract, you'll need to provide the following parameters in the constructor:
-
-- Ticket price (in wei)
-- Chainlink VRF coordinator address
-- Chainlink LINK token address
-- Chainlink VRF key hash
-- Chainlink VRF fee
-- LottoToken contract address
-
-## Note
-
-Please make sure to thoroughly test the contract before deploying it to the mainnet. The provided code is for educational purposes only and should not be considered production-ready without proper testing and audits.
+## Security
+The smart contract uses SafeMath for arithmetic operations and implements the Ownable pattern to ensure that only the contract owner can perform specific actions. Chainlink VRF is used to ensure true randomness when drawing winning numbers.
