@@ -217,17 +217,17 @@
     "absolutePath": "project:/contracts/interfaces/ILottoToken.sol",
     "exportedSymbols": {
       "IERC20": [
-        1043
+        1162
       ],
       "ILottoToken": [
-        2403
+        2635
       ]
     },
-    "id": 2404,
+    "id": 2636,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 2392,
+        "id": 2624,
         "literals": [
           "solidity",
           "^",
@@ -235,17 +235,17 @@
           ".0"
         ],
         "nodeType": "PragmaDirective",
-        "src": "0:23:11"
+        "src": "0:23:12"
       },
       {
         "absolutePath": "@openzeppelin/contracts/token/ERC20/IERC20.sol",
         "file": "@openzeppelin/contracts/token/ERC20/IERC20.sol",
-        "id": 2393,
+        "id": 2625,
         "nameLocation": "-1:-1:-1",
         "nodeType": "ImportDirective",
-        "scope": 2404,
-        "sourceUnit": 1044,
-        "src": "25:56:11",
+        "scope": 2636,
+        "sourceUnit": 1163,
+        "src": "25:56:12",
         "symbolAliases": [],
         "unitAlias": ""
       },
@@ -254,55 +254,55 @@
         "baseContracts": [
           {
             "baseName": {
-              "id": 2394,
+              "id": 2626,
               "name": "IERC20",
               "nameLocations": [
-                "108:6:11"
+                "108:6:12"
               ],
               "nodeType": "IdentifierPath",
-              "referencedDeclaration": 1043,
-              "src": "108:6:11"
+              "referencedDeclaration": 1162,
+              "src": "108:6:12"
             },
-            "id": 2395,
+            "id": 2627,
             "nodeType": "InheritanceSpecifier",
-            "src": "108:6:11"
+            "src": "108:6:12"
           }
         ],
         "canonicalName": "ILottoToken",
         "contractDependencies": [],
         "contractKind": "interface",
         "fullyImplemented": false,
-        "id": 2403,
+        "id": 2635,
         "linearizedBaseContracts": [
-          2403,
-          1043
+          2635,
+          1162
         ],
         "name": "ILottoToken",
-        "nameLocation": "93:11:11",
+        "nameLocation": "93:11:12",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "functionSelector": "40c10f19",
-            "id": 2402,
+            "id": 2634,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "mint",
-            "nameLocation": "130:4:11",
+            "nameLocation": "130:4:12",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 2400,
+              "id": 2632,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 2397,
+                  "id": 2629,
                   "mutability": "mutable",
                   "name": "to",
-                  "nameLocation": "143:2:11",
+                  "nameLocation": "143:2:12",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2402,
-                  "src": "135:10:11",
+                  "scope": 2634,
+                  "src": "135:10:12",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -310,10 +310,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 2396,
+                    "id": 2628,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "135:7:11",
+                    "src": "135:7:12",
                     "stateMutability": "nonpayable",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
@@ -324,13 +324,13 @@
                 },
                 {
                   "constant": false,
-                  "id": 2399,
+                  "id": 2631,
                   "mutability": "mutable",
                   "name": "amount",
-                  "nameLocation": "155:6:11",
+                  "nameLocation": "155:6:12",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2402,
-                  "src": "147:14:11",
+                  "scope": 2634,
+                  "src": "147:14:12",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -338,10 +338,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 2398,
+                    "id": 2630,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
-                    "src": "147:7:11",
+                    "src": "147:7:12",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -350,27 +350,27 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "134:28:11"
+              "src": "134:28:12"
             },
             "returnParameters": {
-              "id": 2401,
+              "id": 2633,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "171:0:11"
+              "src": "171:0:12"
             },
-            "scope": 2403,
-            "src": "121:51:11",
+            "scope": 2635,
+            "src": "121:51:12",
             "stateMutability": "nonpayable",
             "virtual": false,
             "visibility": "external"
           }
         ],
-        "scope": 2404,
-        "src": "83:91:11",
+        "scope": 2636,
+        "src": "83:91:12",
         "usedErrors": []
       }
     ],
-    "src": "0:175:11"
+    "src": "0:175:12"
   },
   "compiler": {
     "name": "solc",
@@ -378,7 +378,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.11",
-  "updatedAt": "2023-04-13T09:39:49.161Z",
+  "updatedAt": "2023-04-13T15:49:56.649Z",
   "devdoc": {
     "events": {
       "Approval(address,address,uint256)": {

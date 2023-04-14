@@ -3,93 +3,94 @@ import React, { useState, useEffect } from 'react';
 import { useWeb3React } from '@web3-react/core';
 import { getLottoContractInstance } from '../web3/lottoContract';
 import TicketForm from '../components/TicketForm';
-import FeatureCard from '../components/FeatureCard';
+import LottoTicket from '../components/LottoTicket';
 import { formatUnits } from 'ethers';
+import { text } from '@fortawesome/fontawesome-svg-core';
 
 const Game = () => {
   const { account, library } = useWeb3React();
   const [ticketPrice, setTicketPrice] = useState('');
   const [round, setRound] = useState('');
   const [ticketCount, setTicketCount] = useState('');
+  const [myTickets, setMyTickets] = useState([]);
 
-  const lottoContractInstance = getLottoContractInstance(library, account);
+  const drawNumber = async () => {
+    try {
+      const lottoContractInstance = getLottoContractInstance(library, account);
+      const tx = await lottoContractInstance.drawWinningNumbers({
+        gasLimit: 10000000
+      });
 
-  const getTicketPirce = () => {
-    return lottoContractInstance.ticketPrice();
+      console.log(tx);
+    } catch (error) {
+      console.error(error);
+    }
   };
-
-  const getRound = () => {
-    return lottoContractInstance.roundId();
-  };
-
-  const getTicketCount = () => {
-    return lottoContractInstance.ticketCount();
-  };
-
-  const features = [
-    {
-      title: 'Current Round',
-      description: round,
-    },
-    {
-      title: 'Ticket Price',
-      description: ticketPrice + ' MATIC',
-    },
-    {
-      title: 'Number of Tickets',
-      description: ticketCount,
-    },
-  ];
 
   useEffect(() => {
-    const fetchAll = async () => {
-      const price = await getTicketPirce();
+    const fetchTicketPrice = async () => {
+      const lottoContractInstance = getLottoContractInstance(library, account);
+      const price = await lottoContractInstance.ticketPrice();
       setTicketPrice(formatUnits(price, 'ether'));
+    };
+    fetchTicketPrice();
+  }, [account, library]);
 
-      const round = await getRound();
+  useEffect(() => {
+    const fetchRound = async () => {
+      const lottoContractInstance = getLottoContractInstance(library, account);
+      const round = await lottoContractInstance.roundId();
       setRound(round.toString());
+    };
+    fetchRound();
+  }, [account, library]);
 
-      const ticketCount = await getTicketCount();
+  useEffect(() => {
+    const fetchTicketCount = async () => {
+      const lottoContractInstance = getLottoContractInstance(library, account);
+      const ticketCount = await lottoContractInstance.ticketCount();
       setTicketCount(ticketCount.toString());
     };
+    fetchTicketCount();
+  }, [account, library]);
 
-    fetchAll();
-  }, []);
+  useEffect(() => {
+    const fetchMyTickets = async () => {
+      const lottoContractInstance = getLottoContractInstance(library, account);
+      const tickets = await lottoContractInstance.getTicketsByAddress(account);
+      setMyTickets([...tickets.map(t => t.toString())]);
+    };
+    fetchMyTickets();
+  }, [account, library]);
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-4xl font-bold mb-8 text-yellow-600">Game</h1>
+    <div className="container mx-auto px-4 py-8 text-center">
+      <h1 className="text-4xl font-bold mb-8 text-yellow-600">Buy your ticket now!</h1>
 
-      <div className="w-full px-4">
-        <p className="mb-8 text-xl text-gray-600">By following these steps, you can easily participate in the lottery game and have a chance to win the daily prize.
+      <div className="w-full px-4 mb-6">
+        <p className="mb-8 text-xl text-gray-600">The ticket price is only <strong>{ticketPrice} MATIC</strong> and you'll receive a Lotto Token for every ticket you buy.
         </p>
-
-        <h3 className="text-2xl font-semibold mb-4 text-green-400">Steps</h3>
-        <ul className="list-disc list-inside ml-4">
-          <li className="mb-2">
-            <strong>Choose 6 unique numbers:</strong> Users must select 6 unique numbers between 1 and 50. Each number can only be selected once per ticket.
-          </li>
-          <li className='mb-2'>
-            <strong>Buy a Ticket:</strong> Use the following form below to enter your numbers.
-          </li>
-          <li>
-            <strong>Wait for draw:</strong> The winning numbers will be selected at the end of each day. Prizes will be automatically distributed to each winner.
-          </li>
-        </ul>
-      </div>
-      <div className="grid grid-cols-3 gap-8 my-8">
-        {features.map((feature, index) => (
-          <FeatureCard
-            key={index}
-            title={feature.title}
-            description={feature.description}
-          />
-        ))}
-      </div>
-      <div className="gap-8 my-8 shadow-md p-4">
-        <TicketForm />
       </div>
 
+      <button onClick={() => drawNumber()}>Draw numbers</button>
+
+      <TicketForm />
+
+      <div className="max-w-3xl mx-auto p-6">
+        <h1 className="text-4xl font-bold mb-8 text-yellow-600">Tickets purchased</h1>
+        <p className="mb-8 text-xl text-gray-600">
+          The tickets you purchased for this round will be displayed here below.
+        </p>
+        <div className="flex justify-center mt-6">
+          {myTickets.map(ticketId => {
+            return (
+              <div className='m-4'>
+                <LottoTicket key={ticketId} ticketId={ticketId}></LottoTicket>
+              </div>
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 };

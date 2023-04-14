@@ -12,6 +12,8 @@ contract Game is VRFConsumerBase, Ownable {
         uint256 roundId;
         uint256 ticketsSold;
         uint8[] winningNumbers;
+        uint256 drawnAt;
+        uint256 prizePool;
         mapping(uint256 => address[]) winners;
     }
 
@@ -96,6 +98,62 @@ contract Game is VRFConsumerBase, Ownable {
         token.mint(msg.sender, 1);
     }
 
+    function getTicketsByAddress(
+        address account
+    ) public view returns (uint256[] memory) {
+        return userTickets[account];
+    }
+
+    function getTicketNumbers(
+        uint256 ticketNr
+    ) public view returns (uint8[] memory) {
+        return ticketNumbers[ticketNr];
+    }
+
+    function getRound(
+        uint256 roundNr
+    )
+        public
+        view
+        returns (
+            uint256 ticketsSold,
+            uint256 drawnAt,
+            uint256 prizePool,
+            uint8[] memory
+        )
+    {
+        return (
+            rounds[roundNr].ticketsSold,
+            rounds[roundNr].drawnAt,
+            rounds[roundNr].prizePool,
+            rounds[roundNr].winningNumbers
+        );
+    }
+
+    function getRoundWinners(
+        uint256 roundNr
+    )
+        public
+        view
+        returns (
+            address[] memory matchOne,
+            address[] memory matchTwo,
+            address[] memory matchThree,
+            address[] memory matchFour,
+            address[] memory matchFive,
+            address[] memory matchSix
+        )
+    {
+        return (
+            rounds[roundNr].winners[1],
+            rounds[roundNr].winners[2],
+            rounds[roundNr].winners[3],
+            rounds[roundNr].winners[4],
+            rounds[roundNr].winners[5],
+            rounds[roundNr].winners[6]
+        );
+    }
+
     // Draw winning numbers using Chainlink VRF
     function drawWinningNumbers() external onlyOwner {
         require(ticketCount > 0, "No tickets have been sold.");
@@ -172,7 +230,7 @@ contract Game is VRFConsumerBase, Ownable {
         payable(owner()).transfer(ownerShare);
 
         // Send out the prizes to the winners
-        for (uint8 correctGuesses = 6; correctGuesses >= 4; correctGuesses--) {
+        for (uint8 correctGuesses = 6; correctGuesses >= 1; correctGuesses--) {
             uint256 winnerCount = rounds[roundId]
                 .winners[correctGuesses]
                 .length;
@@ -191,14 +249,16 @@ contract Game is VRFConsumerBase, Ownable {
         // Distribute token holder prizes
         _distributeTokenHolderPrizes(totalPrizePool);
 
-        // Set the number of tickets sold
+        // Set the round details
         rounds[roundId].ticketsSold = ticketCount;
+        rounds[roundId].drawnAt = block.timestamp;
+        rounds[roundId].prizePool = totalPrizePool;
     }
 
     function _updateWinners() private {
         for (uint256 i = 1; i <= ticketCount; i++) {
             uint256 correctGuesses = _getCorrectGuesses(i);
-            if (correctGuesses >= 4) {
+            if (correctGuesses >= 1) {
                 rounds[roundId].winners[correctGuesses].push(tickets[i]);
             }
         }
@@ -258,13 +318,22 @@ contract Game is VRFConsumerBase, Ownable {
 
         if (correctGuesses == 6) {
             winnerCount = _getWinnerCount(6);
-            return (prizePool * 50) / 100 / winnerCount; // 50% of the prize pool for 6 correct guesses
+            return (prizePool * 40) / 100 / winnerCount; // 40% of the prize pool for 6 correct guesses
         } else if (correctGuesses == 5) {
             winnerCount = _getWinnerCount(5);
-            return (prizePool * 25) / 100 / winnerCount; // 25% of the prize pool for 5 correct guesses
+            return (prizePool * 25) / 100 / winnerCount; // 20% of the prize pool for 5 correct guesses
         } else if (correctGuesses == 4) {
             winnerCount = _getWinnerCount(4);
             return (prizePool * 10) / 100 / winnerCount; // 10% of the prize pool for 4 correct guesses
+        } else if (correctGuesses == 3) {
+            winnerCount = _getWinnerCount(3);
+            return (prizePool * 5) / 100 / winnerCount; // 5% of the prize pool for 3 correct guesses
+        } else if (correctGuesses == 2) {
+            winnerCount = _getWinnerCount(2);
+            return (prizePool * 3) / 100 / winnerCount; // 3% of the prize pool for 2 correct guesses
+        } else if (correctGuesses == 1) {
+            winnerCount = _getWinnerCount(1);
+            return (prizePool * 2) / 100 / winnerCount; // 2% of the prize pool for 1 correct guesses
         }
 
         return 0;

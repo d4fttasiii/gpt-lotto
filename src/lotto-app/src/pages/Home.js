@@ -1,6 +1,7 @@
 // src/Home.js
 import React from 'react';
 import FeatureCard from '../components/FeatureCard';
+import logo from '../assets/images/logo.png';
 
 const Home = () => {
   const features = [
@@ -31,22 +32,32 @@ const Home = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-4xl font-bold mb-8 text-yellow-600">Lotto Game Smart Contract</h1>
+      <div className="flex flex-wrap -mx-4">
+        <div className="w-full md:w-1/2 px-4">
+          <h1 className="text-4xl font-bold mb-8 text-yellow-600">GPT Lotto</h1>
+          <p className="mb-8 text-xl text-gray-600">
+            A decentralized lottery game built on the Polygon blockchain using
+            Solidity, OpenZeppelin, and Chainlink VRF for randomness.
+          </p>
 
-      <p className="mb-8 text-xl text-gray-600">
-        A decentralized lottery game built on the Ethereum blockchain using
-        Solidity, OpenZeppelin, and Chainlink VRF for randomness.
-      </p>
-
-      <h3 className="text-2xl font-semibold mb-4 text-green-400">Overview</h3>
-      <p className="mb-8 text-gray-600">
-        The Lotto Game Smart Contract allows users to participate in a lottery
-        by purchasing tickets with unique numbers. The contract owner can draw
-        the winning numbers using a secure random number generator provided by
-        Chainlink VRF. The prizes are distributed among the winners based on
-        the number of correct guesses.
-      </p>
-
+          <h3 className="text-2xl font-semibold mb-4 text-green-400">Overview</h3>
+          <p className="mb-8 text-gray-600">
+            The Lotto Game Smart Contract allows users to participate in a lottery
+            by purchasing tickets with unique numbers. The contract owner can draw
+            the winning numbers using a secure random number generator provided by
+            Chainlink VRF. The prizes are distributed among the winners based on
+            the number of correct guesses.
+          </p>
+        </div>
+        <div className="w-full md:w-1/2 px-4 flex items-center justify-center">
+          <img
+            src={logo}
+            alt="Lotto Shiba"
+            className="w-96 h-96 rounded-full object-cover"
+            // className="w-full h-auto max-w-md" // Adjust the max-w-md value as needed
+          />
+        </div>
+      </div>
       <h3 className="text-2xl font-semibold mb-4 text-green-400">Features</h3>
       <div className="grid grid-cols-3 gap-8 mb-8">
         {features.map((feature, index) => (

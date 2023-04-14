@@ -8,7 +8,6 @@ contract('LottoToken', function (accounts) {
   const [owner, minter, receiver, other] = accounts;
 
   const totalSupply = new BN('1000000000000000000000000'); // 1,000,000 tokens with 18 decimals
-  let token = null;
 
   beforeEach(async function () {
     this.token = await LottoToken.new(totalSupply, { from: owner });

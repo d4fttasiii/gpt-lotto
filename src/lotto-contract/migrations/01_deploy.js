@@ -7,7 +7,7 @@ module.exports = async (deployer, network, accounts) => {
   await deployer.deploy(LottoToken, totalSupply);
   const lottoToken = await LottoToken.deployed();
 
-  const ticketPrice = web3.utils.toWei("0.1", "ether");
+  const ticketPrice = web3.utils.toWei("0.01", "ether");
   const vrfCoordinator = "0x7a1BaC17Ccc5b313516C5E16fb24f7659aA5ebed"; // VRF Coordinator address for the network
   const linkToken = "0x326C977E6efc84E512bB9C30f76E30c160eD06FB"; // LINK token address for the network
   const keyHash = "0x4b09e658ed251bcafeebbc69400383d49f344ace09b9576fe248bb02c003fe9f"; // Public key hash for the network
