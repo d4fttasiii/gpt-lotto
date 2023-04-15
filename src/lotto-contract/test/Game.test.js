@@ -1,31 +1,36 @@
 const Game = artifacts.require("Game");
 const LottoToken = artifacts.require("LottoToken");
 const VRFCoordinatorMock = artifacts.require("MockVRFCordinator");
+const LinkTokenMock = artifacts.require("MockLinkToken");
 const { expect } = require("chai");
-const { BN, ether } = require("@openzeppelin/test-helpers");
+const w3 = require("web3");
+const web3 = new w3();
 
 contract("Game", function ([owner, player1, player2]) {
-  const ticketPrice = ether("1");
-  const fee = ether("0.1");
+  const lottoSupply = web3.utils.toWei("10", 'ether');
+  const ticketPrice = web3.utils.toWei("0.1", 'ether');
+  const fee = web3.utils.toWei("0.1", 'ether');
+  const gameLinkBalance = web3.utils.toWei("10", 'ether');
   const keyHash =
     "0x6c3699283bda56ad74f6b855546325b68d482e983852a7a82979cc4807b641f4";
 
   let game, lottoToken, vrfCoordinatorMock;
 
   before(async () => {
-    const totalSupply = new BN('1000000000000000000000000');
-    lottoToken = await LottoToken.new(totalSupply, { from: owner });
-    vrfCoordinatorMock = await VRFCoordinatorMock.new(lottoToken.address, { from: owner });
+    const linkToken = await LinkTokenMock.new();
+    lottoToken = await LottoToken.new(lottoSupply, { from: owner });
+    vrfCoordinatorMock = await VRFCoordinatorMock.new(linkToken.address, { from: owner });
     game = await Game.new(
       ticketPrice,
       lottoToken.address,
       vrfCoordinatorMock.address,
-      owner,
+      linkToken.address,
       keyHash,
       fee,
       { from: owner }
     );
     await lottoToken.setMinter(game.address, { from: owner });
+    await linkToken.transfer(game.address, gameLinkBalance);
   });
 
   it("Should buy a ticket", async () => {
@@ -41,7 +46,7 @@ contract("Game", function ([owner, player1, player2]) {
     try {
       await game.buyTicket([1, 2, 3, 4, 5, 6], {
         from: player1,
-        value: ether("0.5"),
+        value: "50000",
       });
       assert.fail("Expected revert not received");
     } catch (error) {
@@ -61,34 +66,35 @@ contract("Game", function ([owner, player1, player2]) {
     }
   });
 
-  // it("Should draw winning numbers", async () => {
-  //   await game.drawWinningNumbers({ from: owner });
+  it("Should draw winning numbers", async () => {
+    // Retrieve requestId from event
+    await game.drawWinningNumbers();
+    
+    // Getting the last request id
+    const requestId = await game.lastRequestId();
 
-  //   // Retrieve requestId from event
-  //   const requestId = (await game.getPastEvents("RequestedRandomness"))[0]
-  //     .returnValues.requestId;
+    // Fulfill randomness using VRFCoordinatorMock
+    await vrfCoordinatorMock.callBackWithRandomness(
+      requestId,
+      123456789,
+      game.address,
+      { from: owner }
+    );
 
-  //   // Fulfill randomness using VRFCoordinatorMock
-  //   await vrfCoordinatorMock.callBackWithRandomness(
-  //     requestId,
-  //     1234567890111213,
-  //     game.address,
-  //     { from: owner }
-  //   );
+    const round = await game.roundId();
+    const winningNumbers = await game.getRoundWinningNumbers(round);
+    expect(winningNumbers.length).to.equal(6);
+  });
 
-  //   const winningNumbers = await game.winningNumbers();
-  //   expect(winningNumbers.length).to.equal(6);
-  // });
+  it("Should distribute prizes and start a new round", async () => {
+    await game.distributePrizes({ from: owner });
 
-  // it("Should distribute prizes and start a new round", async () => {
-  //   await game.distributePrizes({ from: owner });
+    const newRoundId = await game.roundId();
+    const newTicketCount = await game.ticketCount();
+    const newWinningNumbers = await game.getRoundWinningNumbers(newRoundId);
 
-  //   const newRoundId = await game.roundId();
-  //   const newTicketCount = await game.ticketCount();
-  //   const newWinningNumbers = await game.winningNumbers();
-
-  //   expect(newRoundId.toString()).to.equal("2");
-  //   expect(newTicketCount.toString()).to.equal("0");
-  //   expect(newWinningNumbers.length).to.equal(0);
-  // });
+    expect(newRoundId.toString()).to.equal("2");
+    expect(newTicketCount.toString()).to.equal("0");
+    expect(newWinningNumbers.length).to.equal(0);
+  });
 });

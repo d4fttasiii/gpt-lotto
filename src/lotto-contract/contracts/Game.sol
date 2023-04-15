@@ -21,12 +21,13 @@ contract Game is VRFConsumerBase, Ownable {
 
     bytes32 private keyHash;
     uint256 private fee;
+
+    bytes32 public lastRequestId;
     uint256 public randomResult;
 
     uint256 public ticketPrice;
     uint256 public ticketCount;
     uint256 public roundId;
-    uint8[] public winningNumbers;
 
     mapping(address => uint256[]) public userTickets;
     mapping(uint256 => address payable) public tickets;
@@ -45,11 +46,11 @@ contract Game is VRFConsumerBase, Ownable {
     constructor(
         uint256 _ticketPrice,
         address _lottoToken,
-        address vrfCoordinator,
-        address linkToken,
+        address _vrfCoordinator,
+        address _linkToken,
         bytes32 _keyHash,
         uint256 _fee
-    ) VRFConsumerBase(vrfCoordinator, linkToken) {
+    ) VRFConsumerBase(_vrfCoordinator, _linkToken) {
         ticketPrice = _ticketPrice;
         token = ILottoToken(_lottoToken);
         keyHash = _keyHash;
@@ -110,6 +111,12 @@ contract Game is VRFConsumerBase, Ownable {
         return ticketNumbers[ticketNr];
     }
 
+    function getRoundWinningNumbers(
+        uint256 roundNr
+    ) public view returns (uint8[] memory) {
+        return rounds[roundNr].winningNumbers;
+    }
+
     function getRound(
         uint256 roundNr
     )
@@ -158,7 +165,7 @@ contract Game is VRFConsumerBase, Ownable {
     function drawWinningNumbers() external onlyOwner {
         require(ticketCount > 0, "No tickets have been sold.");
         require(
-            winningNumbers.length == 0,
+            rounds[roundId].winningNumbers.length == 0,
             "Winning numbers have already been drawn."
         );
         require(
@@ -166,7 +173,7 @@ contract Game is VRFConsumerBase, Ownable {
             "Not enough LINK to pay the fee."
         );
 
-        requestRandomness(keyHash, fee);
+        lastRequestId = requestRandomness(keyHash, fee);
     }
 
     // Fulfill randomness from Chainlink VRF and distribute prizes
@@ -174,6 +181,8 @@ contract Game is VRFConsumerBase, Ownable {
         bytes32 requestId,
         uint256 randomness
     ) internal override {
+        require(lastRequestId == requestId, "Wrong requestId provided!");
+
         randomResult = randomness;
 
         // Generate unique winning numbers
@@ -208,7 +217,7 @@ contract Game is VRFConsumerBase, Ownable {
 
     function distributePrizes() external onlyOwner {
         require(
-            winningNumbers.length == 6,
+            rounds[roundId].winningNumbers.length == 6,
             "Winning numbers have not been drawn yet."
         );
         // Update the winners
@@ -234,15 +243,17 @@ contract Game is VRFConsumerBase, Ownable {
             uint256 winnerCount = rounds[roundId]
                 .winners[correctGuesses]
                 .length;
-            uint256 prizePerWinner = _calculatePrize(
-                totalPrizePool,
-                correctGuesses
-            ) / winnerCount;
+            if (winnerCount > 0) {
+                uint256 prizePerWinner = _calculatePrize(
+                    totalPrizePool,
+                    correctGuesses
+                ) / winnerCount;
 
-            for (uint256 i = 0; i < winnerCount; i++) {
-                address winner = rounds[roundId].winners[correctGuesses][i];
-                payable(winner).transfer(prizePerWinner);
-                emit PrizeClaimed(winner, prizePerWinner);
+                for (uint256 i = 0; i < winnerCount; i++) {
+                    address winner = rounds[roundId].winners[correctGuesses][i];
+                    payable(winner).transfer(prizePerWinner);
+                    emit PrizeClaimed(winner, prizePerWinner);
+                }
             }
         }
 
@@ -296,6 +307,7 @@ contract Game is VRFConsumerBase, Ownable {
     ) private view returns (uint256) {
         uint8[] memory userNumbers = ticketNumbers[ticketNumber];
         uint256 correctGuesses = 0;
+        uint8[] memory winningNumbers = rounds[roundId].winningNumbers;
 
         for (uint256 i = 0; i < userNumbers.length; i++) {
             for (uint256 j = 0; j < winningNumbers.length; j++) {
@@ -357,7 +369,6 @@ contract Game is VRFConsumerBase, Ownable {
     function _reset() private {
         roundId++;
         ticketCount = 0;
-        winningNumbers = new uint8[](0);
     }
 
     // Sorts an array of numbers in ascending order using Bubble Sort

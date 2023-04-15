@@ -12,6 +12,7 @@
     "@openzeppelin/test-helpers": "^0.5.16",
     "chai": "^4.3.7",
     "hardhat": "^2.13.0",
-    "npm-check-updates": "^16.10.7"
+    "npm-check-updates": "^16.10.7",
+    "web3": "^1.9.0"
   }
 }
