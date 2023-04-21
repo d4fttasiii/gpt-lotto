@@ -6,7 +6,7 @@ import { faClover } from '@fortawesome/free-solid-svg-icons';
 
 const TopBar = ({ handleMenuToggle }) => {
   return (
-    <div className="bg-gray-800 w-full h-16 flex justify-between items-center px-4">
+    <div className="bg-gray-800 w-full h-16 flex justify-between items-center px-4 fixed top-0 z-10">
       <div className="flex items-center">
         <button
           className="p-2 text-green-400"
@@ -22,3 +22,4 @@ const TopBar = ({ handleMenuToggle }) => {
 };
 
 export default TopBar;
+

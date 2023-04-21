@@ -42,6 +42,13 @@ const SideMenu = ({ menuOpen, handleMenuToggle }) => {
         >
           Past Rounds
         </NavLink>
+        <NavLink
+            to="/token"
+            className={"text-white block " + (({ isActive, isPending }) => isActive ? "font-bold" : "")}
+            onClick={handleMenuToggle}
+          >
+            Token
+          </NavLink>
       </div>
     </CSSTransition>
   );

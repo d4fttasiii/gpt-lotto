@@ -17,6 +17,20 @@ const Game = () => {
   const drawNumber = async () => {
     try {
       const lottoContractInstance = getLottoContractInstance(library, account);
+      await lottoContractInstance.drawWinningNumbers({
+        gasLimit: 10000000
+      });
+      // const tx = await lottoContractInstance.distributePrizes();
+
+      // console.log(tx);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const distributePrizes = async () => {
+    try {
+      const lottoContractInstance = getLottoContractInstance(library, account);
       const tx = await lottoContractInstance.distributePrizes();
 
       console.log(tx);
@@ -24,6 +38,7 @@ const Game = () => {
       console.error(error);
     }
   };
+
 
   useEffect(() => {
     const fetchTicketPrice = async () => {
@@ -56,13 +71,20 @@ const Game = () => {
     const fetchMyTickets = async () => {
       const lottoContractInstance = getLottoContractInstance(library, account);
       const tickets = await lottoContractInstance.getTicketsByAddress(account);
-      setMyTickets([...tickets.map(t => t.toString())]);
+      setMyTickets([...tickets.map(t => t.toString()).filter(t => t)]);
     };
     fetchMyTickets();
   }, [account, library]);
 
   return (
     <div className="container mx-auto px-4 py-8 text-center">
+      {/* <div className='mb-8'>
+        <button onClick={() => drawNumber()}>draw those numbers</button>
+      </div>
+      
+      <div>
+        <button onClick={() => distributePrizes()}>distributePrizes</button>
+      </div> */}
       <div className='mb-8'>
         <h1 className="text-4xl font-bold mb-8 text-yellow-600">Buy your ticket now!</h1>
         <div className="w-full px-4 mb-6">
