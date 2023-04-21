@@ -79,7 +79,7 @@ module.exports = {
         providerOrUrl: "https://rpc-mumbai.maticvigil.com/",
         chainId: 80001
       }),
-      network_id: "*"
+      network_id: "*",
     }
     //
     // An additional network, but with some advanced options…

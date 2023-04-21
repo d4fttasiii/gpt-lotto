@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
@@ -5,16 +6,19 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@chainlink/contracts/src/v0.8/VRFConsumerBase.sol";
 import "./interfaces/ILottoToken.sol";
 
-contract Game is VRFConsumerBase, Ownable {
+contract LuckyShiba is VRFConsumerBase, Ownable {
     using SafeMath for uint256;
 
     struct Round {
         uint256 roundId;
-        uint256 ticketsSold;
+        uint256 ticketCount;
         uint8[] winningNumbers;
         uint256 drawnAt;
         uint256 prizePool;
         mapping(uint256 => address[]) winners;
+        mapping(address => uint256[]) userTickets;
+        mapping(uint256 => address payable) tickets;
+        mapping(uint256 => uint8[]) ticketNumbers;
     }
 
     ILottoToken token;
@@ -26,12 +30,8 @@ contract Game is VRFConsumerBase, Ownable {
     uint256 public randomResult;
 
     uint256 public ticketPrice;
-    uint256 public ticketCount;
     uint256 public roundId;
 
-    mapping(address => uint256[]) public userTickets;
-    mapping(uint256 => address payable) public tickets;
-    mapping(uint256 => uint8[]) public ticketNumbers;
     mapping(uint256 => Round) public rounds;
 
     event TicketPurchased(
@@ -42,6 +42,7 @@ contract Game is VRFConsumerBase, Ownable {
     event WinningNumbers(uint256 roundId, uint8[] numbers);
     event PrizeClaimed(address indexed winner, uint256 amount);
     event TokenHolderPrizeClaimed(address indexed winner, uint256 amount);
+    event RequestFulfilled(bytes32 requestId, uint256 randomness);
 
     constructor(
         uint256 _ticketPrice,
@@ -89,26 +90,31 @@ contract Game is VRFConsumerBase, Ownable {
             }
         }
 
-        ticketCount = ticketCount.add(1);
-        tickets[ticketCount] = payable(msg.sender);
-        ticketNumbers[ticketCount] = sortedNumbers;
-        userTickets[msg.sender].push(ticketCount);
-        emit TicketPurchased(msg.sender, ticketCount, sortedNumbers);
+        rounds[roundId].ticketCount += 1;
+        uint256 newTicketCount = rounds[roundId].ticketCount;
+        rounds[roundId].tickets[newTicketCount] = payable(msg.sender);
+        rounds[roundId].ticketNumbers[newTicketCount] = sortedNumbers;
+        rounds[roundId].userTickets[msg.sender].push(newTicketCount);
+        emit TicketPurchased(msg.sender, newTicketCount, sortedNumbers);
 
         // Mint a token for the user
-        token.mint(msg.sender, 1);
+        token.mint(msg.sender, 1 ether);
+    }
+
+    function getTicketCount() public view returns (uint256) {
+        return rounds[roundId].ticketCount;
     }
 
     function getTicketsByAddress(
         address account
     ) public view returns (uint256[] memory) {
-        return userTickets[account];
+        return rounds[roundId].userTickets[account];
     }
 
     function getTicketNumbers(
         uint256 ticketNr
     ) public view returns (uint8[] memory) {
-        return ticketNumbers[ticketNr];
+        return rounds[roundId].ticketNumbers[ticketNr];
     }
 
     function getRoundWinningNumbers(
@@ -123,14 +129,14 @@ contract Game is VRFConsumerBase, Ownable {
         public
         view
         returns (
-            uint256 ticketsSold,
+            uint256 ticketCount,
             uint256 drawnAt,
             uint256 prizePool,
             uint8[] memory
         )
     {
         return (
-            rounds[roundNr].ticketsSold,
+            rounds[roundNr].ticketCount,
             rounds[roundNr].drawnAt,
             rounds[roundNr].prizePool,
             rounds[roundNr].winningNumbers
@@ -163,7 +169,7 @@ contract Game is VRFConsumerBase, Ownable {
 
     // Draw winning numbers using Chainlink VRF
     function drawWinningNumbers() external onlyOwner {
-        require(ticketCount > 0, "No tickets have been sold.");
+        require(rounds[roundId].ticketCount > 0, "No tickets have been sold.");
         require(
             rounds[roundId].winningNumbers.length == 0,
             "Winning numbers have already been drawn."
@@ -227,7 +233,7 @@ contract Game is VRFConsumerBase, Ownable {
         _distributePrizes();
 
         // Start a new round
-        _reset();
+        _nextRound();
     }
 
     // Distribute prizes among the winners
@@ -261,16 +267,17 @@ contract Game is VRFConsumerBase, Ownable {
         _distributeTokenHolderPrizes(totalPrizePool);
 
         // Set the round details
-        rounds[roundId].ticketsSold = ticketCount;
         rounds[roundId].drawnAt = block.timestamp;
         rounds[roundId].prizePool = totalPrizePool;
     }
 
     function _updateWinners() private {
-        for (uint256 i = 1; i <= ticketCount; i++) {
+        for (uint256 i = 1; i <= rounds[roundId].ticketCount; i++) {
             uint256 correctGuesses = _getCorrectGuesses(i);
             if (correctGuesses >= 1) {
-                rounds[roundId].winners[correctGuesses].push(tickets[i]);
+                rounds[roundId].winners[correctGuesses].push(
+                    rounds[roundId].tickets[i]
+                );
             }
         }
     }
@@ -280,8 +287,8 @@ contract Game is VRFConsumerBase, Ownable {
         uint256 totalTokensHeldByPlayers = 0;
 
         // Calculate the total tokens held by players who participated in the game
-        for (uint256 i = 1; i <= ticketCount; i++) {
-            address player = tickets[i];
+        for (uint256 i = 1; i <= rounds[roundId].ticketCount; i++) {
+            address player = rounds[roundId].tickets[i];
             uint256 playerTokenBalance = token.balanceOf(player);
             totalTokensHeldByPlayers = totalTokensHeldByPlayers.add(
                 playerTokenBalance
@@ -289,8 +296,8 @@ contract Game is VRFConsumerBase, Ownable {
         }
 
         // Distribute the token holder prize pool based on the number of tokens held by each player
-        for (uint256 i = 1; i <= ticketCount; i++) {
-            address player = tickets[i];
+        for (uint256 i = 1; i <= rounds[roundId].ticketCount; i++) {
+            address player = rounds[roundId].tickets[i];
             uint256 playerTokenBalance = token.balanceOf(player);
             if (playerTokenBalance > 0) {
                 uint256 playerPrize = (tokenHolderPrizePool *
@@ -305,7 +312,9 @@ contract Game is VRFConsumerBase, Ownable {
     function _getCorrectGuesses(
         uint256 ticketNumber
     ) private view returns (uint256) {
-        uint8[] memory userNumbers = ticketNumbers[ticketNumber];
+        uint8[] memory userNumbers = rounds[roundId].ticketNumbers[
+            ticketNumber
+        ];
         uint256 correctGuesses = 0;
         uint8[] memory winningNumbers = rounds[roundId].winningNumbers;
 
@@ -357,7 +366,7 @@ contract Game is VRFConsumerBase, Ownable {
     ) private view returns (uint256) {
         uint256 winnerCount = 0;
 
-        for (uint256 i = 1; i <= ticketCount; i++) {
+        for (uint256 i = 1; i <= rounds[roundId].ticketCount; i++) {
             if (_getCorrectGuesses(i) == correctGuesses) {
                 winnerCount++;
             }
@@ -366,9 +375,8 @@ contract Game is VRFConsumerBase, Ownable {
         return winnerCount;
     }
 
-    function _reset() private {
+    function _nextRound() private {
         roundId++;
-        ticketCount = 0;
     }
 
     // Sorts an array of numbers in ascending order using Bubble Sort

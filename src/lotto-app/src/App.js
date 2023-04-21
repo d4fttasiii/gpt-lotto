@@ -23,19 +23,20 @@ function App() {
   };
 
   return (
-      <BrowserRouter>
-        <div>
-          <TopBar handleMenuToggle={handleMenuToggle} />
-          <div className="mt-16">
-            <SideMenu menuOpen={menuOpen} handleMenuToggle={handleMenuToggle} />
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/game" element={<Game />} />
-              <Route path="/past-rounds" element={<PastRounds />} />
-            </Routes>
-          </div>
+    <BrowserRouter>
+      <div>
+        <TopBar handleMenuToggle={handleMenuToggle} />
+        <div className="mt-16">
+          <SideMenu menuOpen={menuOpen} handleMenuToggle={handleMenuToggle} />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/game" element={<Game />} />
+            <Route path="/past-rounds" element={<PastRounds />} />
+            <Route path="*" element={<Home />} />
+          </Routes>
         </div>
-      </BrowserRouter>
+      </div>
+    </BrowserRouter>
   );
 }
 

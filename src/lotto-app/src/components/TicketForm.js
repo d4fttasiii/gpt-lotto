@@ -37,7 +37,7 @@ const TicketForm = () => {
     try {
       const lottoContractInstance = getLottoContractInstance(library, account);
       const ticketPrice = await lottoContractInstance.ticketPrice();
-      const tx = await lottoContractInstance.buyTicket(uniqueNumbers, { value: ticketPrice });
+      await lottoContractInstance.buyTicket(uniqueNumbers, { value: ticketPrice });
 
       showSnackBar('Ticket purchased', 'success');
     } catch (error) {
@@ -48,8 +48,8 @@ const TicketForm = () => {
   return (
     <div className="max-w-xl mx-auto rounded h-48">
       <div className='text-left font-bold p-4 bg-gray-800'>
-        <p className="text-white">
-          Enter 6 unique numbers between 1 and 50:
+        <p className="text-white text-xl">
+          Enter 6 unique numbers between 1 and 50
         </p>
       </div>
       <div className='bg-gray-600 py-6 px-4'>

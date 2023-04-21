@@ -34,7 +34,7 @@ const Home = () => {
     <div className="container mx-auto px-4 py-8">
       <div className="flex flex-wrap -mx-4">
         <div className="w-full md:w-1/2 px-4">
-          <h1 className="text-4xl font-bold mb-8 text-yellow-600">GPT Lotto</h1>
+          <h1 className="text-4xl font-bold mb-8 text-yellow-600">About</h1>
           <p className="mb-8 text-xl text-gray-600">
             A decentralized lottery game built on the Polygon blockchain using
             Solidity, OpenZeppelin, and Chainlink VRF for randomness.

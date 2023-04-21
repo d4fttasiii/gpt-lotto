@@ -23,7 +23,7 @@ const LottoTicket = ({ ticketId }) => {
     return (
         <div className="shadow-lg rounded-lg w-72">
             <div className="text-left font-bold p-4 bg-gray-800">
-                <p className='text-white'>Ticket Nr: {ticketId}</p>
+                <p className='text-white text-xl'>Ticket Number <span className='shadow-lg rounded-lg bg-gray-600 px-2 py-1'>{ticketId}</span></p>
             </div>
             <div className="bg-gray-200 p-4">
                 {loading ? (

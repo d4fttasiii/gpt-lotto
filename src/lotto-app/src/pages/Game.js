@@ -4,8 +4,8 @@ import { useWeb3React } from '@web3-react/core';
 import { getLottoContractInstance } from '../web3/lottoContract';
 import TicketForm from '../components/TicketForm';
 import LottoTicket from '../components/LottoTicket';
+import CountdownToMidnight from '../components/CountdownToMidnight';
 import { formatUnits } from 'ethers';
-import { text } from '@fortawesome/fontawesome-svg-core';
 
 const Game = () => {
   const { account, library } = useWeb3React();
@@ -17,9 +17,7 @@ const Game = () => {
   const drawNumber = async () => {
     try {
       const lottoContractInstance = getLottoContractInstance(library, account);
-      const tx = await lottoContractInstance.drawWinningNumbers({
-        gasLimit: 10000000
-      });
+      const tx = await lottoContractInstance.distributePrizes();
 
       console.log(tx);
     } catch (error) {
@@ -65,16 +63,22 @@ const Game = () => {
 
   return (
     <div className="container mx-auto px-4 py-8 text-center">
-      <h1 className="text-4xl font-bold mb-8 text-yellow-600">Buy your ticket now!</h1>
-
-      <div className="w-full px-4 mb-6">
-        <p className="mb-8 text-xl text-gray-600">The ticket price is only <strong>{ticketPrice} MATIC</strong> and you'll receive a Lotto Token for every ticket you buy.
-        </p>
+      <div className='mb-8'>
+        <h1 className="text-4xl font-bold mb-8 text-yellow-600">Buy your ticket now!</h1>
+        <div className="w-full px-4 mb-6">
+          <p className="mb-8 text-xl text-gray-600">The ticket price is only <strong>{ticketPrice} MATIC</strong> and you'll receive a Lotto Token for every ticket you buy.
+          </p>
+        </div>
+        <TicketForm />
       </div>
 
-      <button onClick={() => drawNumber()}>Draw numbers</button>
+      <div className="max-w-3xl mx-auto p-6 mb-8">
+        <h1 className="text-4xl font-bold mb-8 text-yellow-600">Time until the next draw</h1>
 
-      <TicketForm />
+        <CountdownToMidnight />
+
+      </div>
+
 
       <div className="max-w-3xl mx-auto p-6">
         <h1 className="text-4xl font-bold mb-8 text-yellow-600">Tickets purchased</h1>

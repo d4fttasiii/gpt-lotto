@@ -14,7 +14,7 @@ const TopBar = ({ handleMenuToggle }) => {
         >
           <FontAwesomeIcon icon={faClover} size="lg" />
         </button>
-        <span className="text-yellow-600 text-xl font-semibold ml-2">GPT Lotto</span>
+        <span className="text-yellow-600 text-xl font-semibold ml-2">Lucky Shiba</span>
       </div>
       <WalletConnector />
     </div>
