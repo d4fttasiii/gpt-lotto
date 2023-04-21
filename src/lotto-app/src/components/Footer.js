@@ -8,7 +8,7 @@ const Footer = () => {
       <div className="container mx-auto text-center">
         <div className="flex justify-center items-center space-x-4 mb-4">
           <a
-            href="https://github.com/your-github-username"
+            href="https://github.com/d4fttasiii/gpt-lotto"
             target="_blank"
             rel="noopener noreferrer"
             className="text-white hover:text-gray-400 transition-colors duration-200"
@@ -25,7 +25,7 @@ const Footer = () => {
           </a>
         </div>
         <p className="text-sm">
-          &copy; {new Date().getFullYear()} Your Company. All rights reserved.
+          &copy; {new Date().getFullYear()} Lucky Shiba. All rights reserved.
         </p>
       </div>
     </footer>
