@@ -1,4 +1,4 @@
-# Game Smart Contract
+# Lucky Shiba
 
 This Solidity smart contract is a lottery game that uses Chainlink VRF to randomly select the winning numbers. Users can buy tickets with unique numbers, and prizes are distributed based on the number of correct guesses.
 
