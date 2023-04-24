@@ -19,7 +19,7 @@ const Footer = () => {
             href="https://twitter.com/your-twitter-handle"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-white hover:text-gray-400 transition-colors duration-200"
+            className="text-blue-400 hover:text-blue-800 transition-colors duration-200"
           >
             <FontAwesomeIcon icon={faTwitter} size="lg" />
           </a>

@@ -42,9 +42,9 @@ const PastRounds = () => {
           </p>
         </div>
         <div className="bg-gray-800 flex justify-between items-center mb-6 p-4 shadow-lg">
-          <span className="text-xl font-semibold text-gray-300">
-            Active Round:
-            <span className="shadow-lg rounded-lg bg-gray-600 px-2 py-1">
+          <span className="text-xl font-semibold text-white">
+            Active Round
+            <span className="shadow-lg rounded-lg bg-gray-600 ml-2 px-2 py-1">
               {currentRound}
             </span>
           </span>

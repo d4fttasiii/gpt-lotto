@@ -10,17 +10,15 @@ const Token = () => {
         </div>
         <div className="w-1/2">
           <h1 className="text-4xl font-bold mb-8 text-yellow-600">Lucky Shiba Token</h1>
-          <div className="w-full px-4 mb-6">
-            <p className="mb-8 text-xl text-gray-600">
-              Contract address: <a href=''>0x51492C4AdFa1236B261E4b1564EE596C2A3F3e4d</a>
+          <div className="w-full mb-6">
+            <p className="mb-8 text-xl text-green-400">
+              Contract address: <strong>0x51492C4AdFa1236B261E4b1564EE596C2A3F3e4d</strong>
             </p>
           </div>
           <p>The Lucky Shiba Token (LST) has no association with any existing brands or products. This cryptocurrency is simply paying homage to the Shiba meme that many of us know and love.</p>
           <br />
           <p>The LST is not intended to have any intrinsic value or expectation of financial return. There is no formal team or roadmap for the token. The coin is purely for entertainment purposes and has no practical use. As a meme coin, the Lucky Shiba Token is designed to offer a fun and exciting way to engage with the Lucky Shiba meme and participate in lotteries using cryptocurrency.</p>
         </div>
-
-        <p>Token page content goes here.</p>
       </div>
     </div>
   );
