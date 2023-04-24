@@ -56,7 +56,7 @@ const RoundDetails = ({ roundNumber }) => {
   };
 
   return (
-    <div className="shadow-lg rounded-lg w-96">
+    <div className="shadow-lg rounded-lg">
       <div className="text-left font-bold p-4 bg-gray-800">
         <p className='text-white text-xl'>Round <span className='shadow-lg rounded-lg bg-gray-600 px-2 py-1'>{roundNumber}</span></p>
       </div>

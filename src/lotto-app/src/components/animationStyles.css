@@ -1,4 +1,4 @@
-.expandable-row-enter {
+  .expandable-row-enter {
     max-height: 0;
     overflow: hidden;
     opacity: 0;
@@ -22,3 +22,10 @@
     transition: max-height 600ms ease-out, opacity 600ms ease-out;
   }
   
+  /* section {
+    display: grid;
+    place-items: center;
+    align-content: center;
+    min-height: 100vh;
+  }
+   */

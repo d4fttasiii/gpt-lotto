@@ -1,12 +1,13 @@
 import { Contract, Interface } from 'ethers';
 import { InjectedConnector } from '@web3-react/injected-connector';
+import { ContractAddresses } from './contractAddresses';
 
 export const injectedConnector = new InjectedConnector({
   supportedChainIds: [80001],
 });
 
 export const getLottoContractInstance = (library, account) => {
-  return new Contract('0x1537079B317bd2BD1170bF1d71768ab01c96aED3', new Interface([
+  return new Contract(ContractAddresses.LuckyShiba, new Interface([
     {
       "inputs": [
         {
@@ -17,6 +18,11 @@ export const getLottoContractInstance = (library, account) => {
         {
           "internalType": "address",
           "name": "_lottoToken",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_application",
           "type": "address"
         },
         {
@@ -165,6 +171,19 @@ export const getLottoContractInstance = (library, account) => {
     },
     {
       "inputs": [],
+      "name": "application",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
       "name": "lastRequestId",
       "outputs": [
         {
@@ -257,7 +276,7 @@ export const getLottoContractInstance = (library, account) => {
         },
         {
           "internalType": "uint256",
-          "name": "ticketsSold",
+          "name": "ticketCount",
           "type": "uint256"
         },
         {
@@ -268,19 +287,6 @@ export const getLottoContractInstance = (library, account) => {
         {
           "internalType": "uint256",
           "name": "prizePool",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "ticketCount",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
           "type": "uint256"
         }
       ],
@@ -316,6 +322,19 @@ export const getLottoContractInstance = (library, account) => {
     {
       "inputs": [
         {
+          "internalType": "address",
+          "name": "newApplication",
+          "type": "address"
+        }
+      ],
+      "name": "updateApplicationAddress",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
           "internalType": "uint256",
           "name": "newTicketPrice",
           "type": "uint256"
@@ -337,6 +356,19 @@ export const getLottoContractInstance = (library, account) => {
       "name": "buyTicket",
       "outputs": [],
       "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getTicketCount",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
       "type": "function"
     },
     {
@@ -408,7 +440,7 @@ export const getLottoContractInstance = (library, account) => {
       "outputs": [
         {
           "internalType": "uint256",
-          "name": "ticketsSold",
+          "name": "ticketCount",
           "type": "uint256"
         },
         {

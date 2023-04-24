@@ -34,37 +34,46 @@ const PastRounds = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 text-center">
-      <div className='mb-8'>
-        <h1 className="text-4xl font-bold mb-8 text-yellow-600">Past Rounds</h1>
-        <div className="w-full px-4 mb-6">
-          <p className="mb-8 text-xl text-gray-600">
-          </p>
-        </div>
-        <div className="bg-gray-800 flex justify-between items-center mb-6 p-4 shadow-lg">
-          <span className="text-xl font-semibold text-white">
-            Active Round
-            <span className="shadow-lg rounded-lg bg-gray-600 ml-2 px-2 py-1">
-              {currentRound}
-            </span>
-          </span>
-          <div className="flex">
-            <button
-              className="p-2 bg-green-600 hover:bg-green-700 text-white rounded-full mr-4"
-              onClick={goToPreviousRound}
-            >
-              <FontAwesomeIcon icon={faArrowLeft} />
-            </button>
-            <button
-              className="p-2 bg-green-600 hover:bg-green-700 text-white rounded-full ml-4"
-              onClick={goToNextRound}
-            >
-              <FontAwesomeIcon icon={faArrowRight} />
-            </button>
+    <div className="container mx-auto px-4 py-8 text-center min-h-screen">
+      <div className="flex flex-col items-center justify-center h-full">
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold mb-8 text-yellow-600">Past Rounds</h1>
+          <div className="w-full px-4 mb-8">
+            <p className="mb-8 text-xl text-gray-600">Here you'll be able to explore the history of previous lottery rounds.
+            </p>
           </div>
+          <div className="bg-gray-800 flex justify-between items-center mb-6 p-4 shadow-lg">
+            <span className="text-xl font-semibold text-white">
+              Active Round
+              <span className="shadow-lg rounded-lg bg-gray-600 ml-2 px-2 py-1">
+                {currentRound}
+              </span>
+            </span>
+            <div className="flex">
+              <button
+                className="p-2 px-4 bg-green-600 hover:bg-green-700 text-white rounded-full mr-1"
+                onClick={goToPreviousRound}
+                disabled={currentRound > selectedRound - 1}
+              >
+                <FontAwesomeIcon icon={faArrowLeft} />
+              </button>
+              <button
+                className="p-2 px-4 bg-green-600 hover:bg-green-700 text-white rounded-full ml-1"
+                onClick={goToNextRound}
+                disabled={currentRound <= selectedRound - 1}
+              >
+                <FontAwesomeIcon icon={faArrowRight} />
+              </button>
+            </div>
+          </div>
+          {currentRound > 1 ? (
+            <RoundDetails roundNumber={selectedRound}></RoundDetails>
+          ) : (
+            <p className="mb-8 text-xl text-gray-600">
+              The first round of the lottery is active.
+            </p>
+          )}
         </div>
-
-        <RoundDetails roundNumber={selectedRound}></RoundDetails>
       </div>
     </div>
   );

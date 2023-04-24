@@ -6,7 +6,7 @@ const { expect } = require("chai");
 const w3 = require("web3");
 const web3 = new w3();
 
-contract("Game", function ([owner, player1, player2]) {
+contract("Game", function ([owner, application, player1, player2]) {
   const totalSupply = web3.utils.toWei("10", 'ether');
   const ticketPrice = web3.utils.toWei("0.1", 'ether');
   const fee = web3.utils.toWei("0.1", 'ether');
@@ -23,6 +23,7 @@ contract("Game", function ([owner, player1, player2]) {
     game = await LuckyShiba.new(
       ticketPrice,
       luckyShibaToken.address,
+      application,
       vrfCoordinatorMock.address,
       linkToken.address,
       keyHash,
@@ -68,7 +69,7 @@ contract("Game", function ([owner, player1, player2]) {
 
   it("Should draw winning numbers", async () => {
     // Retrieve requestId from event
-    await game.drawWinningNumbers();
+    await game.drawWinningNumbers({ from : application});
 
     // Getting the last request id
     const requestId = await game.lastRequestId();
@@ -87,7 +88,7 @@ contract("Game", function ([owner, player1, player2]) {
   });
 
   it("Should distribute prizes and start a new round", async () => {
-    await game.distributePrizes({ from: owner });
+    await game.distributePrizes({ from: application });
 
     const newRoundId = await game.roundId();
     const newTicketCount = await game.getTicketCount();
@@ -104,7 +105,7 @@ contract("Game", function ([owner, player1, player2]) {
     await game.buyTicket([31, 32, 33, 34, 35, 36], { from: player1, value: ticketPrice });
 
     // Retrieve requestId from event
-    await game.drawWinningNumbers();
+    await game.drawWinningNumbers({ from: application });
 
     // Getting the last request id
     const requestId = await game.lastRequestId();
@@ -117,7 +118,7 @@ contract("Game", function ([owner, player1, player2]) {
       { from: owner }
     );
 
-    await game.distributePrizes({ from: owner });
+    await game.distributePrizes({ from: application });
 
     await game.buyTicket([31, 32, 33, 34, 35, 36], { from: player1, value: ticketPrice });
     await game.buyTicket([1, 2, 3, 4, 5, 6], { from: player2, value: ticketPrice });

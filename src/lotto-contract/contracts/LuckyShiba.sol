@@ -28,9 +28,10 @@ contract LuckyShiba is VRFConsumerBase, Ownable {
 
     bytes32 public lastRequestId;
     uint256 public randomResult;
-
     uint256 public ticketPrice;
     uint256 public roundId;
+    address public application;
+
 
     mapping(uint256 => Round) public rounds;
 
@@ -47,6 +48,7 @@ contract LuckyShiba is VRFConsumerBase, Ownable {
     constructor(
         uint256 _ticketPrice,
         address _lottoToken,
+        address _application,
         address _vrfCoordinator,
         address _linkToken,
         bytes32 _keyHash,
@@ -54,9 +56,21 @@ contract LuckyShiba is VRFConsumerBase, Ownable {
     ) VRFConsumerBase(_vrfCoordinator, _linkToken) {
         ticketPrice = _ticketPrice;
         token = ILottoToken(_lottoToken);
+        application = _application;
         keyHash = _keyHash;
         fee = _fee;
         roundId = 1;
+    }
+
+    modifier onlyApplication() {
+        require(msg.sender == application, "Caller is not the application");
+        _;
+    }
+
+    // Update the application address (only callable by the contract owner)
+    function updateApplicationAddress(address newApplication) public onlyOwner {
+        require(newApplication != address(0), "New application address must not be zero address.");
+        application = newApplication;
     }
 
     // Update the ticket price (only callable by the contract owner)
@@ -168,7 +182,7 @@ contract LuckyShiba is VRFConsumerBase, Ownable {
     }
 
     // Draw winning numbers using Chainlink VRF
-    function drawWinningNumbers() external onlyOwner {
+    function drawWinningNumbers() external onlyApplication {
         require(rounds[roundId].ticketCount > 0, "No tickets have been sold.");
         require(
             rounds[roundId].winningNumbers.length == 0,
@@ -221,7 +235,7 @@ contract LuckyShiba is VRFConsumerBase, Ownable {
         emit WinningNumbers(roundId, rounds[roundId].winningNumbers);
     }
 
-    function distributePrizes() external onlyOwner {
+    function distributePrizes() external onlyApplication {
         require(
             rounds[roundId].winningNumbers.length == 6,
             "Winning numbers have not been drawn yet."

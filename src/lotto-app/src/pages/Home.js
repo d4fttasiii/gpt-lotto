@@ -10,23 +10,23 @@ const Home = () => {
       description: 'Using Chainlink VRF for secure, on-chain randomness.',
     },
     {
-      title: 'Buy Tickets with Unique Numbers',
-      description:
-        'Users can purchase tickets with 6 unique numbers between 1 and 50.',
-    },
-    {
-      title: 'Prize Distribution',
-      description:
-        'Prizes are distributed based on the number of correct guesses.',
-    },
-    {
-      title: 'Minting of Lotto Tokens',
-      description: 'Lotto tokens are minted for each ticket purchase.',
-    },
-    {
       title: 'Secure Ownership Management',
       description:
         "Inherits from OpenZeppelin's Ownable contract for secure ownership management.",
+    },
+    {
+      title: 'Fair Prize Distribution',
+      description:
+        `40% of the prize pool for 6 correct guesses <br/>
+        25% of the prize pool for 5 correct guesses <br/>
+        10% of the prize pool for 4 correct guesses
+        5% of the prize pool for 3 correct guesses
+        3% of the prize pool for 2 correct guesses
+        2% of the prize pool for 1 correct guess`,
+    },
+    {
+      title: 'Minting of Lucky Shiba Tokens',
+      description: 'Lucky Shiba tokens are minted for each ticket purchase.',
     },
   ];
 
@@ -54,7 +54,7 @@ const Home = () => {
             src={logo}
             alt="Lotto Shiba"
             className="w-96 h-96 rounded-full object-cover"
-            // className="w-full h-auto max-w-md" // Adjust the max-w-md value as needed
+          // className="w-full h-auto max-w-md" // Adjust the max-w-md value as needed
           />
         </div>
       </div>

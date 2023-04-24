@@ -16,10 +16,12 @@ module.exports = async (deployer, network, accounts) => {
   const linkToken = "0x326C977E6efc84E512bB9C30f76E30c160eD06FB"; // LINK token address for the network
   const keyHash = "0x6e75b569a01ef56d18cab6a8e71e6600d6ce853834d4a5748b720d06f878b3a4"; // Public key hash for the network
   const fee = web3.utils.toWei("0.0001", "ether"); // Fee in LINK tokens for the network
+  const applicationAddress = "0xe317468EFBE96d559AC61C5bA8cD2a6690A9f90A";
   await deployer.deploy(
     LuckyShiba,
     ticketPrice,
     token.address,
+    applicationAddress,
     vrfCoordinator,
     linkToken,
     keyHash,
