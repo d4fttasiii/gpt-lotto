@@ -1,5 +1,7 @@
 // src/components/CountdownToMidnight.js
 import React, { useState, useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faClock } from '@fortawesome/free-solid-svg-icons';
 
 const CountdownToMidnight = () => {
     const [timeRemaining, setTimeRemaining] = useState('');
@@ -29,12 +31,9 @@ const CountdownToMidnight = () => {
     }, []);
 
     return (
-        <div className="text-center  rounded-lg w-72 mx-auto shadow-lg">
-            <h2 className="bg-gray-800 text-left p-4 text-xl text-white font-bold">Time until next draw</h2>
-            <div className="bg-gray-600 text-2xl p-4 font-semibold text-white">
-                {timeRemaining}
-            </div>
-
+        <div className="bg-gray-600 text-2xl py-4 font-semibold text-white">
+            <FontAwesomeIcon icon={faClock}></FontAwesomeIcon>
+            <span className='ml-4'>{timeRemaining}</span>
         </div>
     );
 };

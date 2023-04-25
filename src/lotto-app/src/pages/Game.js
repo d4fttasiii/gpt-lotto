@@ -35,7 +35,7 @@ const Game = () => {
       <div className='h-96 mb-8'>
         <h1 className="text-4xl font-bold mb-8 text-yellow-600">Buy your ticket now!</h1>
         <div className="w-full px-4 mb-6">
-          <p className="mb-8 text-xl text-gray-600">The ticket price is only <strong>{ticketPrice} MATIC</strong> and you'll receive a Lotto Token for every ticket you buy.
+          <p className="mb-8 text-xl text-white">The ticket price is only <strong>{ticketPrice} MATIC</strong> and you'll receive a Lotto Token for every ticket you buy.
           </p>
         </div>
         <TicketForm />

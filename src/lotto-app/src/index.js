@@ -5,6 +5,7 @@ import { Web3ReactProvider, getLibrary } from './web3/web3';
 import { SnackBarProvider } from './contexts/SnackBarContext';
 import App from './App';
 import './index.css';
+import 'animate.css';
 
 const root = document.getElementById('root');
 

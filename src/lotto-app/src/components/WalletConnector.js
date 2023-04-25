@@ -4,8 +4,10 @@ import { useWeb3React } from '@web3-react/core';
 import { injectedConnector } from '../web3/lottoContract';
 import { formatAddress } from '../utils/formatAddress';
 import detectEthereumProvider from '@metamask/detect-provider';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faWallet } from '@fortawesome/free-solid-svg-icons';
 
-const WalletConnector = () => {
+const WalletConnector = ({ isBig, hasNetworkBtn }) => {
   const { activate, deactivate, active, account, chainId } = useWeb3React();
   const [showNetworks, setShowNetworks] = useState(false);
 
@@ -51,16 +53,16 @@ const WalletConnector = () => {
 
   return (
     <div className="relative">
-      {active && (
+      {(active && hasNetworkBtn) && (
         <>
           <button
-            className="bg-gray-600 text-white px-4 py-2 rounded"
+            className="bg-gray-600 text-white font-bold px-4 py-2 rounded"
             onClick={() => setShowNetworks(!showNetworks)}
           >
             {networks.find((network) => network.chainId === chainId)?.name}
           </button>
           {showNetworks && (
-            <div className="absolute mt-2 bg-gray-800 shadow-lg rounded p-2">
+            <div className="absolute mt-2 bg-gray-800 shadow-lg rounded p-2 animate__animated animate__fadeInDown">
               {networks.map((network) => (
                 <button
                   key={network.id}
@@ -75,13 +77,14 @@ const WalletConnector = () => {
         </>
       )}
       <button
-        className={`ml-2 ${active ? 'bg-green-400' : 'bg-gray-600'
-          } text-white px-4 py-2 rounded`}
+        className={`ml-2 ${active ? 'bg-green-500' : 'bg-gray-700'
+          } text-white font-bold ${isBig ? 'py-4 px-6 rounded-xl' : 'px-4 py-2 rounded'}`}
         onClick={handleClick}
       >
-        {active ? formatAddress(account) : 'Connect Wallet'}
+        <FontAwesomeIcon icon={faWallet}></FontAwesomeIcon>
+        <span className='ml-2'>{active ? formatAddress(account) : 'Connect Wallet'}</span>
       </button>
-    </div>
+    </div >
   );
 };
 
