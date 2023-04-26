@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faTicket, faHistory, faCoins, faClover } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faTicket, faHistory, faMoneyCheck, faClover } from '@fortawesome/free-solid-svg-icons';
 
 const SideMenu = ({ menuOpen, handleMenuToggle }) => {
   return (
@@ -31,13 +31,23 @@ const SideMenu = ({ menuOpen, handleMenuToggle }) => {
         >
           <FontAwesomeIcon className='mr-1' icon={faHome}></FontAwesomeIcon> Home
         </NavLink>
+
         <NavLink
           to="/game"
           className={"mb-3 text-white block hover:text-gray-400 transition-colors duration-200 " + (({ isActive, isPending }) => isActive ? "font-bold" : "")}
           onClick={handleMenuToggle}
         >
-          <FontAwesomeIcon className='mr-1' icon={faTicket}></FontAwesomeIcon> Game
+          <FontAwesomeIcon className='mr-1' icon={faMoneyCheck}></FontAwesomeIcon> Game
         </NavLink>
+
+        <NavLink
+          to="/my-tickets"
+          className={"mb-3 text-white block hover:text-gray-400 transition-colors duration-200 " + (({ isActive, isPending }) => isActive ? "font-bold" : "")}
+          onClick={handleMenuToggle}
+        >
+          <FontAwesomeIcon className='mr-1' icon={faTicket}></FontAwesomeIcon> My Tickets
+        </NavLink>
+
         <NavLink
           to="/past-rounds"
           className={"mb-3 text-white block hover:text-gray-400 transition-colors duration-200 " + (({ isActive, isPending }) => isActive ? "font-bold" : "")}

@@ -1,10 +1,5 @@
 import { Contract, Interface } from 'ethers';
-import { InjectedConnector } from '@web3-react/injected-connector';
 import { ContractAddresses } from './contractAddresses';
-
-export const injectedConnector = new InjectedConnector({
-  supportedChainIds: [80001],
-});
 
 export const getLottoContractInstance = (library, account) => {
   return new Contract(ContractAddresses.LuckyShiba, new Interface([

@@ -1,17 +1,19 @@
 // src/Main.js
-import React, { useRef } from 'react'
-import { Parallax, ParallaxLayer } from '@react-spring/parallax'
+import React, { useRef } from 'react';
+import { Parallax, ParallaxLayer } from '@react-spring/parallax';
 import { useWeb3React } from '@web3-react/core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCaretDown, faTicket } from '@fortawesome/free-solid-svg-icons';
 import { NavLink } from 'react-router-dom';
-import PrizeDistribution from '../components/PrizeDistribution';
+
 import CountdownToMidnight from '../components/CountdownToMidnight';
+import PrizeDistribution from '../components/PrizeDistribution';
+import WalletConnector from '../components/WalletConnector';
+import CopyToClipboardText from '../components/CopyToClipboard';
 import shiba1 from '../assets/images/logo.png';
 import shiba2 from '../assets/images/logo_2.png';
 import shiba3 from '../assets/images/prize_distribution.png';
 import { ContractAddresses } from '../web3/contractAddresses';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretDown, faTicket } from '@fortawesome/free-solid-svg-icons';
-import WalletConnector from '../components/WalletConnector';
 
 const Main = () => {
 
@@ -19,15 +21,15 @@ const Main = () => {
   const { account } = useWeb3React();
 
   return (
-    <div className='bg-gray-800'>
-      <Parallax pages={4} ref={parallax}>
+    <div>
+      <Parallax pages={5} ref={parallax}>
 
         <ParallaxLayer
           offset={0.3}
           speed={1.5}
         >
 
-          <div className='w-full text-center'>
+          <div className='w-full text-center animate__animated animate__bounceInDown'>
             <h1 className='text-4xl font-extrabold text-yellow-600'>Lucky Shiba</h1>
             <p className='text-2xl font-bold text-white mt-4'>The lottery game designed with GPT-4</p>
           </div>
@@ -35,7 +37,7 @@ const Main = () => {
         </ParallaxLayer>
 
         <ParallaxLayer
-          offset={0.75}
+          offset={0.65}
           speed={1.5}
         >
 
@@ -68,26 +70,34 @@ const Main = () => {
           <img
             src={shiba1}
             alt="Lotto Shiba"
-            className="rounded-full object-cover"
+            className="rounded-full object-cover hidden sm:block"
           />
         </ParallaxLayer>
 
         <ParallaxLayer
           offset={0.9}
           speed={0.5}
-          style={{ width: '35%', marginLeft: '50%' }}
         >
-          <div className='bg-gray-600 p-4 rounded-xl'>
-            <h1 className="text-4xl font-bold mb-8 text-yellow-600">Lucky Shiba</h1>            
-            <h2 className="mb-8 text-2xl font-bold text-yellow-500">
-              {ContractAddresses.LuckyShiba}
-            </h2>
-            <p className="mb-8 text-xl text-white">
+          <div className='w-full sm:w-5/12 sm:ml-[50%] ml-2 mr-4 bg-gray-600 p-4 rounded-xl'>
+            <div className='flex'>
+              <div className='w-4/5 sm:w-full'>
+                <h1 className="text-4xl font-bold mb-8 text-yellow-600">Lucky Shiba</h1>
+                <CopyToClipboardText text={ContractAddresses.LuckyShiba} maxLength={8} />
+              </div>
+              <div className='sm:hidden'>
+                <img
+                  src={shiba1}
+                  alt="Lotto Shiba"
+                  className="rounded-full object-cover w-36"
+                />
+              </div>
+            </div>
+            <p className="my-8 text-sm sm:text-xl text-white">
               A decentralized lottery game built on the Polygon blockchain using
               Solidity, OpenZeppelin, and Chainlink VRF for randomness.
             </p>
 
-            <p className="mb-8 text-xl text-white">
+            <p className="mb-8 text-sm sm:text-xl text-white">
               The contract allows players to participate in a lottery.
               Winning numbers are drawn daily using a secure random number generator provided by
               Chainlink VRF. The prizes are distributed among the winners based on
@@ -103,86 +113,103 @@ const Main = () => {
         <ParallaxLayer
           offset={1.5}
           speed={0.2}
-          style={{ width: '25%', marginLeft: '65%' }}
+          style={{ width: '25%', marginLeft: '70%' }}
         >
           <img
             src={shiba2}
             alt="Lotto Shiba"
-            className="rounded-full object-cover"
+            className="rounded-full object-cover hidden sm:block"
           />
         </ParallaxLayer>
 
         <ParallaxLayer
           offset={1.4}
           speed={0.1}
-          style={{ width: '35%', marginLeft: '15%' }}
         >
-          <div className='p-4 bg-gray-600 rounded-xl'>
-            <h1 className="text-4xl font-bold mb-8 text-yellow-600">Lucky Shiba Token</h1>
-            <h2 className="mb-8 text-2xl font-bold text-yellow-500">
-              {ContractAddresses.LuckyShibaToken}
-            </h2>
-            <p className="mb-8 text-xl text-white">
+          <div className='w-full sm:w-6/12 sm:ml-[15%] ml-2 mr-4 bg-gray-600 p-4 rounded-xl'>
+            <div className='flex'>
+              <div className='w-4/5 sm:w-full'>
+                <h1 className="text-4xl font-bold mb-8 text-yellow-600">Lucky Shiba Token</h1>
+                <CopyToClipboardText text={ContractAddresses.LuckyShibaToken} maxLength={8} />
+              </div>
+              <div className='sm:hidden'>
+                <img
+                  src={shiba2}
+                  alt="Lotto Shiba"
+                  className="rounded-full object-cover w-36"
+                />
+              </div>
+            </div>
+            <p className="my-8 text-sm sm:text-xl text-white">
               Offers a unique ERC-20 utility token designed to reward and empower its holders in the world of decentralized lottery. LST is the heart of the Lucky Shiba lottery game, offering an interactive and rewarding experience for its users.
             </p>
 
-            <h2 className="mb-8 text-2xl font-bold text-yellow-500">
+            <h2 className="mb-8 sm:text-2xl font-bold text-yellow-500">
               Tokenomics:
             </h2>
 
-            <ul className='list-disc text-xl ml-8 mb-8 text-white'>
+            <ul className='list-disc text-sm sm:text-xl ml-8 mb-8 text-white'>
               <li>Total Supply: <strong>1,000,000 LST</strong></li>
               <li>Reserve Holdings: <strong>700,000 LST</strong></li>
               <li>Lottery Distribution: <strong>300,000 LST</strong></li>
             </ul>
 
-            <p className="mb-8 text-xl text-white">
+            <p className="mb-8 text-sm sm:text-xl text-white">
               Lucky Shiba Token is strategically structured with a limited supply to maintain value and exclusivity. Out of the 1,000,000 total LST supply, 700,000 tokens are locked down in a secure reserve smart contract for future distribution.
             </p>
-            <p className="mb-8 text-xl text-white">
+            <p className="mb-8 text-sm sm:text-xl text-white">
               The remaining 300,000 LST tokens are distributed to players of the Lucky Shiba lottery game. Every time a user participates in the lottery and purchases a ticket, the Lucky Shiba lottery smart contract mints 1 LST token and sends it to the player, creating an engaging and rewarding gaming experience.
             </p>
-            <p className="mb-4 text-xl text-white">
+            <p className="mb-4 text-sm sm:text-xl text-white">
               In each lottery game round, 5% of the prize pool is distributed to LST holders who participate in the given round. The token holder distribution is calculated based on the proportion of tokens held by each participating player relative to the total tokens held by all players who participated in the game. This ensures a fair distribution of rewards and encourages players to actively participate in the lottery game.
             </p>
           </div>
         </ParallaxLayer>
 
         <ParallaxLayer
-          offset={2.4}
+          offset={2.8}
           speed={0.15}
           style={{ width: '25%', marginLeft: '15%' }}
         >
           <img
             src={shiba3}
             alt="Lotto Shiba"
-            className="rounded-full object-cover"
+            className="rounded-full object-cover hidden sm:block"
           />
         </ParallaxLayer>
 
         <ParallaxLayer
-          offset={2.3}
+          offset={2.7}
           speed={0.25}
-          style={{ width: '35%', marginLeft: '50%' }}
         >
-
-          <div className='p-4 bg-gray-600 rounded-xl'>
-            <h1 className="text-4xl font-bold mb-8 text-yellow-600">Prize Distribution</h1>
-            <p className="mb-8 text-xl text-white">
+          <div className='w-full sm:w-4/12 sm:ml-[50%] ml-2 mr-4 bg-gray-600 p-4 rounded-xl'>
+            <div className='flex'>
+              <div className='w-4/5 sm:w-full'>
+                <h1 className="text-4xl font-bold mb-8 text-yellow-600">Prize Distribution</h1>
+              </div>
+              <div className='sm:hidden'>
+                <img
+                  src={shiba3}
+                  alt="Lotto Shiba"
+                  className="rounded-full object-cover w-36"
+                />
+              </div>
+            </div>
+            <p className="my-8 text-sm sm:text-xl text-white">
               The prize distribution in the game allocates different portions of the total prize pool to winners based on their number of correct guesses. The breakdown is as follows:
             </p>
-            <div class="mx-auto mb-8 mx-8 bg-white rounded">
+            <div className="mx-auto mb-8 mx-8 bg-white rounded">
               <PrizeDistribution />
             </div>
             <h2 className="text-2xl mb-4 font-bold text-yellow-500">Token holder rewards</h2>
-            <p className="mb-4 text-xl text-white">The token holder distribution is calculated based on the proportion of tokens held by each participating player relative to the total tokens held by all players who participated in the game.</p>
+            <p className="mb-4 text-sm sm:text-xl text-white">The token holder distribution is calculated based on the proportion of tokens held by each participating player relative to the total tokens held by all players who participated in the game.</p>
           </div>
 
         </ParallaxLayer>
 
 
         <ParallaxLayer
-          offset={3.4}
+          offset={4.2}
           speed={-0.15}
         >
           <div className='w-full text-center'>
@@ -210,8 +237,7 @@ const Main = () => {
         </ParallaxLayer>
 
       </Parallax>
-    </div >
-  );
+    </div>);
 };
 
 export default Main;

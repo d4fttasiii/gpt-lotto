@@ -1,11 +1,11 @@
 // src/components/WalletConnector.js
 import React, { useState, useEffect } from 'react';
 import { useWeb3React } from '@web3-react/core';
-import { injectedConnector } from '../web3/lottoContract';
+import { injectedProvider } from '../web3/web3';
 import { formatAddress } from '../utils/formatAddress';
 import detectEthereumProvider from '@metamask/detect-provider';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faWallet } from '@fortawesome/free-solid-svg-icons';
+import { faWallet, faShareNodes } from '@fortawesome/free-solid-svg-icons';
 
 const WalletConnector = ({ isBig, hasNetworkBtn }) => {
   const { activate, deactivate, active, account, chainId } = useWeb3React();
@@ -20,7 +20,7 @@ const WalletConnector = ({ isBig, hasNetworkBtn }) => {
       const detectedProvider = await detectEthereumProvider();
       if (detectedProvider) {
         try {
-          await activate(injectedConnector);
+          await activate(injectedProvider);
         } catch (error) {
           console.error('Failed to connect MetaMask:', error);
         }
@@ -36,13 +36,13 @@ const WalletConnector = ({ isBig, hasNetworkBtn }) => {
     if (active) {
       deactivate();
     } else {
-      activate(injectedConnector);
+      activate(injectedProvider);
     }
   };
 
   const switchNetwork = async (newChainId) => {
     try {
-      await injectedConnector.getProvider().request({
+      await injectedProvider.getProvider().request({
         method: 'wallet_switchEthereumChain',
         params: [{ chainId: `0x${newChainId.toString(16)}` }],
       });
@@ -59,7 +59,10 @@ const WalletConnector = ({ isBig, hasNetworkBtn }) => {
             className="bg-gray-600 text-white font-bold px-4 py-2 rounded"
             onClick={() => setShowNetworks(!showNetworks)}
           >
-            {networks.find((network) => network.chainId === chainId)?.name}
+            <span className='sm:hidden'><FontAwesomeIcon icon={faShareNodes} /></span>
+            <span className='hidden sm:block sm:ml-2'>
+              {networks.find((network) => network.chainId === chainId)?.name}
+            </span>
           </button>
           {showNetworks && (
             <div className="absolute mt-2 bg-gray-800 shadow-lg rounded p-2 animate__animated animate__fadeInDown">
@@ -81,7 +84,7 @@ const WalletConnector = ({ isBig, hasNetworkBtn }) => {
           } text-white font-bold ${isBig ? 'py-4 px-6 rounded-xl' : 'px-4 py-2 rounded'}`}
         onClick={handleClick}
       >
-        <FontAwesomeIcon icon={faWallet}></FontAwesomeIcon>
+        <FontAwesomeIcon icon={faWallet} />
         <span className='ml-2'>{active ? formatAddress(account) : 'Connect Wallet'}</span>
       </button>
     </div >

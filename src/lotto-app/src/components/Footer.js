@@ -1,6 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub, faTwitter } from '@fortawesome/free-brands-svg-icons';
+import { faCopyright } from '@fortawesome/free-solid-svg-icons';
 
 const Footer = () => {
   return (
@@ -24,8 +25,8 @@ const Footer = () => {
             <FontAwesomeIcon icon={faTwitter} size="lg" />
           </a>
         </div>
-        <p className="text-sm">
-          &copy; {new Date().getFullYear()} Lucky Shiba. All rights reserved.
+        <p className="text-sm font-bold">
+          <FontAwesomeIcon icon={faCopyright} /> {new Date().getFullYear()} Lucky Shiba. All rights reserved.
         </p>
       </div>
     </footer>
