@@ -29,3 +29,15 @@ body {
   transform: translateX(-100%);
   transition: opacity 300ms, transform 300ms;
 }
+
+/* Custom CSS to remove the stepper */
+.no-stepper::-webkit-inner-spin-button,
+.no-stepper::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.no-stepper {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}

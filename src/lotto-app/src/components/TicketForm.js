@@ -65,7 +65,7 @@ const TicketForm = () => {
                   min="1"
                   max="50"
                   required
-                  className="w-9 mx-1 border-2 border-gray-300 rounded-full px-2 py-1"
+                  className="w-12 h-12 mx-1 border-2 border-gray-300 rounded-full px-2 py-1 no-stepper"
                 />
               </div>
             ))}

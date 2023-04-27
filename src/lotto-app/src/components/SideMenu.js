@@ -29,7 +29,7 @@ const SideMenu = ({ menuOpen, handleMenuToggle }) => {
           className={"mb-3 text-white block hover:text-gray-400 transition-colors duration-200 " + (({ isActive, isPending }) => isActive ? "font-bold" : "")}
           onClick={handleMenuToggle}
         >
-          <FontAwesomeIcon className='mr-1' icon={faHome}></FontAwesomeIcon> Home
+          <FontAwesomeIcon className='text-green-400 mr-1' icon={faHome}></FontAwesomeIcon> Home
         </NavLink>
 
         <NavLink
@@ -37,7 +37,7 @@ const SideMenu = ({ menuOpen, handleMenuToggle }) => {
           className={"mb-3 text-white block hover:text-gray-400 transition-colors duration-200 " + (({ isActive, isPending }) => isActive ? "font-bold" : "")}
           onClick={handleMenuToggle}
         >
-          <FontAwesomeIcon className='mr-1' icon={faMoneyCheck}></FontAwesomeIcon> Game
+          <FontAwesomeIcon className='text-green-400 mr-1' icon={faMoneyCheck}></FontAwesomeIcon> Game
         </NavLink>
 
         <NavLink
@@ -45,7 +45,7 @@ const SideMenu = ({ menuOpen, handleMenuToggle }) => {
           className={"mb-3 text-white block hover:text-gray-400 transition-colors duration-200 " + (({ isActive, isPending }) => isActive ? "font-bold" : "")}
           onClick={handleMenuToggle}
         >
-          <FontAwesomeIcon className='mr-1' icon={faTicket}></FontAwesomeIcon> My Tickets
+          <FontAwesomeIcon className='text-green-400 mr-1' icon={faTicket}></FontAwesomeIcon> My Tickets
         </NavLink>
 
         <NavLink
@@ -53,7 +53,7 @@ const SideMenu = ({ menuOpen, handleMenuToggle }) => {
           className={"mb-3 text-white block hover:text-gray-400 transition-colors duration-200 " + (({ isActive, isPending }) => isActive ? "font-bold" : "")}
           onClick={handleMenuToggle}
         >
-          <FontAwesomeIcon className='mr-1' icon={faHistory}></FontAwesomeIcon> Past Rounds
+          <FontAwesomeIcon className='text-green-400 mr-1' icon={faHistory}></FontAwesomeIcon> Past Rounds
         </NavLink>
       </div>
     </CSSTransition>

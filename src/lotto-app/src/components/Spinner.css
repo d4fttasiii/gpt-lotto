@@ -9,7 +9,7 @@
   
   .spinner {
     border: 2px solid rgba(0, 0, 0, 0.1);
-    border-left-color: #4299e1;
+    border-left-color: rgb(74 222 128);
     border-radius: 50%;
     width: 24px;
     height: 24px;
