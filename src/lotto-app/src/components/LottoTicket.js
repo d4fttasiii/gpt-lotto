@@ -22,8 +22,8 @@ const LottoTicket = ({ ticketId }) => {
 
   return (
     <div className="shadow-lg rounded-lg w-80 sm:w-96">
-      <div className="text-left font-bold p-4 bg-gray-800 flex justify-between items-center">
-        <p className='text-white text-xl'>Ticket Number</p>
+      <div className="text-white text-left font-bold p-4 bg-gray-800 flex justify-between items-center">
+        <p className='text-xl'>Ticket Number</p>
         <span className='shadow-lg rounded-lg bg-gray-600 px-2 py-1'>{ticketId}</span>
       </div>
 

@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useWeb3React } from '@web3-react/core';
+
 import Footer from './components/Footer';
 import SideMenu from './components/SideMenu';
 import TopBar from './components/TopBar';

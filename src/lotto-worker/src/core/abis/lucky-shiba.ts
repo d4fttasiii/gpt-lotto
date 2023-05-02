@@ -2,484 +2,515 @@ import { AbiItem } from 'web3-utils';
 
 export const LUCKY_SHIBA: AbiItem[] = [
   {
-    "inputs": [
+    inputs: [
       {
-        "internalType": "uint256",
-        "name": "_ticketPrice",
-        "type": "uint256"
+        internalType: 'uint256',
+        name: '_ticketPrice',
+        type: 'uint256',
       },
       {
-        "internalType": "address",
-        "name": "_lottoToken",
-        "type": "address"
+        internalType: 'address',
+        name: '_lottoToken',
+        type: 'address',
       },
       {
-        "internalType": "address",
-        "name": "_vrfCoordinator",
-        "type": "address"
+        internalType: 'address',
+        name: '_application',
+        type: 'address',
       },
       {
-        "internalType": "address",
-        "name": "_linkToken",
-        "type": "address"
+        internalType: 'address',
+        name: '_vrfCoordinator',
+        type: 'address',
       },
       {
-        "internalType": "bytes32",
-        "name": "_keyHash",
-        "type": "bytes32"
+        internalType: 'address',
+        name: '_linkToken',
+        type: 'address',
       },
       {
-        "internalType": "uint256",
-        "name": "_fee",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "constructor"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "previousOwner",
-        "type": "address"
+        internalType: 'bytes32',
+        name: '_keyHash',
+        type: 'bytes32',
       },
       {
-        "indexed": true,
-        "internalType": "address",
-        "name": "newOwner",
-        "type": "address"
-      }
+        internalType: 'uint256',
+        name: '_fee',
+        type: 'uint256',
+      },
     ],
-    "name": "OwnershipTransferred",
-    "type": "event"
+    stateMutability: 'nonpayable',
+    type: 'constructor',
   },
   {
-    "anonymous": false,
-    "inputs": [
+    anonymous: false,
+    inputs: [
       {
-        "indexed": true,
-        "internalType": "address",
-        "name": "winner",
-        "type": "address"
+        indexed: true,
+        internalType: 'address',
+        name: 'previousOwner',
+        type: 'address',
       },
       {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      }
+        indexed: true,
+        internalType: 'address',
+        name: 'newOwner',
+        type: 'address',
+      },
     ],
-    "name": "PrizeClaimed",
-    "type": "event"
+    name: 'OwnershipTransferred',
+    type: 'event',
   },
   {
-    "anonymous": false,
-    "inputs": [
+    anonymous: false,
+    inputs: [
       {
-        "indexed": false,
-        "internalType": "bytes32",
-        "name": "requestId",
-        "type": "bytes32"
+        indexed: true,
+        internalType: 'address',
+        name: 'winner',
+        type: 'address',
       },
       {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "randomness",
-        "type": "uint256"
-      }
+        indexed: false,
+        internalType: 'uint256',
+        name: 'amount',
+        type: 'uint256',
+      },
     ],
-    "name": "RequestFulfilled",
-    "type": "event"
+    name: 'PrizeClaimed',
+    type: 'event',
   },
   {
-    "anonymous": false,
-    "inputs": [
+    anonymous: false,
+    inputs: [
       {
-        "indexed": true,
-        "internalType": "address",
-        "name": "buyer",
-        "type": "address"
+        indexed: false,
+        internalType: 'bytes32',
+        name: 'requestId',
+        type: 'bytes32',
       },
       {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "ticketCount",
-        "type": "uint256"
+        indexed: false,
+        internalType: 'uint256',
+        name: 'randomness',
+        type: 'uint256',
+      },
+    ],
+    name: 'RequestFulfilled',
+    type: 'event',
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: 'address',
+        name: 'buyer',
+        type: 'address',
       },
       {
-        "indexed": false,
-        "internalType": "uint8[]",
-        "name": "numbers",
-        "type": "uint8[]"
-      }
-    ],
-    "name": "TicketPurchased",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "winner",
-        "type": "address"
+        indexed: false,
+        internalType: 'uint256',
+        name: 'ticketCount',
+        type: 'uint256',
       },
       {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      }
+        indexed: false,
+        internalType: 'uint8[]',
+        name: 'numbers',
+        type: 'uint8[]',
+      },
     ],
-    "name": "TokenHolderPrizeClaimed",
-    "type": "event"
+    name: 'TicketPurchased',
+    type: 'event',
   },
   {
-    "anonymous": false,
-    "inputs": [
+    anonymous: false,
+    inputs: [
       {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "roundId",
-        "type": "uint256"
+        indexed: true,
+        internalType: 'address',
+        name: 'winner',
+        type: 'address',
       },
       {
-        "indexed": false,
-        "internalType": "uint8[]",
-        "name": "numbers",
-        "type": "uint8[]"
-      }
+        indexed: false,
+        internalType: 'uint256',
+        name: 'amount',
+        type: 'uint256',
+      },
     ],
-    "name": "WinningNumbers",
-    "type": "event"
+    name: 'TokenHolderPrizeClaimed',
+    type: 'event',
   },
   {
-    "inputs": [],
-    "name": "lastRequestId",
-    "outputs": [
+    anonymous: false,
+    inputs: [
       {
-        "internalType": "bytes32",
-        "name": "",
-        "type": "bytes32"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "owner",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "randomResult",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bytes32",
-        "name": "requestId",
-        "type": "bytes32"
+        indexed: false,
+        internalType: 'uint256',
+        name: 'roundId',
+        type: 'uint256',
       },
       {
-        "internalType": "uint256",
-        "name": "randomness",
-        "type": "uint256"
-      }
+        indexed: false,
+        internalType: 'uint8[]',
+        name: 'numbers',
+        type: 'uint8[]',
+      },
     ],
-    "name": "rawFulfillRandomness",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
+    name: 'WinningNumbers',
+    type: 'event',
   },
   {
-    "inputs": [],
-    "name": "renounceOwnership",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
+    inputs: [],
+    name: 'application',
+    outputs: [
+      {
+        internalType: 'address',
+        name: '',
+        type: 'address',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
   },
   {
-    "inputs": [],
-    "name": "roundId",
-    "outputs": [
+    inputs: [],
+    name: 'lastRequestId',
+    outputs: [
       {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
+        internalType: 'bytes32',
+        name: '',
+        type: 'bytes32',
+      },
     ],
-    "stateMutability": "view",
-    "type": "function"
+    stateMutability: 'view',
+    type: 'function',
   },
   {
-    "inputs": [
+    inputs: [],
+    name: 'owner',
+    outputs: [
       {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
+        internalType: 'address',
+        name: '',
+        type: 'address',
+      },
     ],
-    "name": "rounds",
-    "outputs": [
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'randomResult',
+    outputs: [
       {
-        "internalType": "uint256",
-        "name": "roundId",
-        "type": "uint256"
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'bytes32',
+        name: 'requestId',
+        type: 'bytes32',
       },
       {
-        "internalType": "uint256",
-        "name": "ticketCount",
-        "type": "uint256"
+        internalType: 'uint256',
+        name: 'randomness',
+        type: 'uint256',
+      },
+    ],
+    name: 'rawFulfillRandomness',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'renounceOwnership',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'roundId',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    name: 'rounds',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: 'roundId',
+        type: 'uint256',
       },
       {
-        "internalType": "uint256",
-        "name": "drawnAt",
-        "type": "uint256"
+        internalType: 'uint256',
+        name: 'ticketCount',
+        type: 'uint256',
       },
       {
-        "internalType": "uint256",
-        "name": "prizePool",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "ticketPrice",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "newOwner",
-        "type": "address"
-      }
-    ],
-    "name": "transferOwnership",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "newTicketPrice",
-        "type": "uint256"
-      }
-    ],
-    "name": "updateTicketPrice",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint8[]",
-        "name": "numbers",
-        "type": "uint8[]"
-      }
-    ],
-    "name": "buyTicket",
-    "outputs": [],
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "getTicketCount",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "account",
-        "type": "address"
-      }
-    ],
-    "name": "getTicketsByAddress",
-    "outputs": [
-      {
-        "internalType": "uint256[]",
-        "name": "",
-        "type": "uint256[]"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "ticketNr",
-        "type": "uint256"
-      }
-    ],
-    "name": "getTicketNumbers",
-    "outputs": [
-      {
-        "internalType": "uint8[]",
-        "name": "",
-        "type": "uint8[]"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "roundNr",
-        "type": "uint256"
-      }
-    ],
-    "name": "getRoundWinningNumbers",
-    "outputs": [
-      {
-        "internalType": "uint8[]",
-        "name": "",
-        "type": "uint8[]"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "roundNr",
-        "type": "uint256"
-      }
-    ],
-    "name": "getRound",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "ticketCount",
-        "type": "uint256"
+        internalType: 'uint256',
+        name: 'drawnAt',
+        type: 'uint256',
       },
       {
-        "internalType": "uint256",
-        "name": "drawnAt",
-        "type": "uint256"
+        internalType: 'uint256',
+        name: 'prizePool',
+        type: 'uint256',
       },
-      {
-        "internalType": "uint256",
-        "name": "prizePool",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint8[]",
-        "name": "",
-        "type": "uint8[]"
-      }
     ],
-    "stateMutability": "view",
-    "type": "function"
+    stateMutability: 'view',
+    type: 'function',
   },
   {
-    "inputs": [
+    inputs: [],
+    name: 'ticketPrice',
+    outputs: [
       {
-        "internalType": "uint256",
-        "name": "roundNr",
-        "type": "uint256"
-      }
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
     ],
-    "name": "getRoundWinners",
-    "outputs": [
-      {
-        "internalType": "address[]",
-        "name": "matchOne",
-        "type": "address[]"
-      },
-      {
-        "internalType": "address[]",
-        "name": "matchTwo",
-        "type": "address[]"
-      },
-      {
-        "internalType": "address[]",
-        "name": "matchThree",
-        "type": "address[]"
-      },
-      {
-        "internalType": "address[]",
-        "name": "matchFour",
-        "type": "address[]"
-      },
-      {
-        "internalType": "address[]",
-        "name": "matchFive",
-        "type": "address[]"
-      },
-      {
-        "internalType": "address[]",
-        "name": "matchSix",
-        "type": "address[]"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
+    stateMutability: 'view',
+    type: 'function',
   },
   {
-    "inputs": [],
-    "name": "drawWinningNumbers",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
+    inputs: [
+      {
+        internalType: 'address',
+        name: 'newOwner',
+        type: 'address',
+      },
+    ],
+    name: 'transferOwnership',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
   },
   {
-    "inputs": [],
-    "name": "distributePrizes",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  }
+    inputs: [
+      {
+        internalType: 'address',
+        name: 'newApplication',
+        type: 'address',
+      },
+    ],
+    name: 'updateApplicationAddress',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'uint256',
+        name: 'newTicketPrice',
+        type: 'uint256',
+      },
+    ],
+    name: 'updateTicketPrice',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'uint8[]',
+        name: 'numbers',
+        type: 'uint8[]',
+      },
+    ],
+    name: 'buyTicket',
+    outputs: [],
+    stateMutability: 'payable',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'getTicketCount',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: 'account',
+        type: 'address',
+      },
+    ],
+    name: 'getTicketsByAddress',
+    outputs: [
+      {
+        internalType: 'uint256[]',
+        name: '',
+        type: 'uint256[]',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'uint256',
+        name: 'ticketNr',
+        type: 'uint256',
+      },
+    ],
+    name: 'getTicketNumbers',
+    outputs: [
+      {
+        internalType: 'uint8[]',
+        name: '',
+        type: 'uint8[]',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'uint256',
+        name: 'roundNr',
+        type: 'uint256',
+      },
+    ],
+    name: 'getRoundWinningNumbers',
+    outputs: [
+      {
+        internalType: 'uint8[]',
+        name: '',
+        type: 'uint8[]',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'uint256',
+        name: 'roundNr',
+        type: 'uint256',
+      },
+    ],
+    name: 'getRound',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: 'ticketCount',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: 'drawnAt',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: 'prizePool',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint8[]',
+        name: '',
+        type: 'uint8[]',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'uint256',
+        name: 'roundNr',
+        type: 'uint256',
+      },
+    ],
+    name: 'getRoundWinners',
+    outputs: [
+      {
+        internalType: 'address[]',
+        name: 'matchOne',
+        type: 'address[]',
+      },
+      {
+        internalType: 'address[]',
+        name: 'matchTwo',
+        type: 'address[]',
+      },
+      {
+        internalType: 'address[]',
+        name: 'matchThree',
+        type: 'address[]',
+      },
+      {
+        internalType: 'address[]',
+        name: 'matchFour',
+        type: 'address[]',
+      },
+      {
+        internalType: 'address[]',
+        name: 'matchFive',
+        type: 'address[]',
+      },
+      {
+        internalType: 'address[]',
+        name: 'matchSix',
+        type: 'address[]',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'drawWinningNumbers',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'distributePrizes',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
 ];

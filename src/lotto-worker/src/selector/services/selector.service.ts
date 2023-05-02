@@ -12,29 +12,22 @@ export class SelectorService {
     this.contractCfg = this.configService.get<ContractConfig>('contract');
   }
 
-  @Cron('0 0 * * *')
+  @Cron('*/1 * * * *')
   async doDrawNumbers() {
+    console.log(`doDrawNumbers`);
     const ticketNumbers = await this.getTicketNumber();
     if (ticketNumbers > 0) {
-      await this.drawWinningNumbers();
-    } else {
-      console.warn('Skipped drawing winning numbers');
-    }
-  }
-
-
-  @Cron('5 0 * * *')
-  async doDistributePrizes() {
-    const ticketNumbers = await this.getTicketNumber();
-    if (ticketNumbers > 0) {
+      // await this.drawWinningNumbers();
       await this.distributePrizes();
     } else {
-      console.warn('Prize distribution skipped, not tickets were sold');
+      console.warn('Skipped drawing winning numbers & prize distro');
     }
   }
 
   private async getTicketNumber(): Promise<number> {
-    const ticketNumbers = await this.web3.luckyShiba.methods.getTicketCount();
+    const ticketNumbers = await this.web3.luckyShiba.methods
+      .getTicketCount()
+      .call();
     return parseInt(ticketNumbers, 10);
   }
 
@@ -46,7 +39,7 @@ export class SelectorService {
     const tx = {
       from: this.contractCfg.applicationAddress,
       to: this.contractCfg.luckyShibaAddress,
-      gas: 300000,
+      gas: 500000,
       data: encodedABI,
     };
 
@@ -58,8 +51,10 @@ export class SelectorService {
       this.contractCfg.applicationPrivateKey,
     );
 
-    const result = await this.web3.sendSignedTransaction(signedTx.rawTransaction);
-    console.log(`Winning numbers have been drawn `, result);
+    const result = await this.web3.sendSignedTransaction(
+      signedTx.rawTransaction,
+    );
+    console.log(`Winning numbers have been drawn `, result.transactionHash);
   }
 
   private async distributePrizes() {
@@ -70,7 +65,7 @@ export class SelectorService {
     const tx = {
       from: this.contractCfg.applicationAddress,
       to: this.contractCfg.luckyShibaAddress,
-      gas: 300000,
+      gas: 1000000,
       data: encodedABI,
     };
 
@@ -82,7 +77,9 @@ export class SelectorService {
       this.contractCfg.applicationPrivateKey,
     );
 
-    const result = await this.web3.sendSignedTransaction(signedTx.rawTransaction);
-    console.log(`Prizes distributed `, result);
+    const result = await this.web3.sendSignedTransaction(
+      signedTx.rawTransaction,
+    );
+    console.log(`Prizes distributed `, result.transactionHash);
   }
 }

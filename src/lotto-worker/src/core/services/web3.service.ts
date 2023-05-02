@@ -17,7 +17,10 @@ export class Web3Service {
     const web3Config = this.configService.get<Web3Config>('web3');
     this.url = web3Config.url;
     this.web3 = new Web3(this.url);
-    this.luckyShiba = new this.web3.eth.Contract(LUCKY_SHIBA, contractConfig.luckyShibaAddress);
+    this.luckyShiba = new this.web3.eth.Contract(
+      LUCKY_SHIBA,
+      contractConfig.luckyShibaAddress,
+    );
   }
 
   async accountInfo(account: string): Promise<string> {

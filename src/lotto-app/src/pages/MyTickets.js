@@ -29,9 +29,11 @@ const MyTickets = () => {
             <h1 className="text-4xl font-bold mb-8 text-yellow-600">My Tickets</h1>
           </div>
           {myTickets.length === 0 ? (
-            <p className="my-8 text-xl text-gray-600">
-              The tickets you purchased for this round will be displayed here below.
-            </p>
+            <div className='m-8 text-center animate__animated animate__fadeInDown'>
+              <p className="text-sm sm:text-xl text-white">
+                The tickets you purchased for this round will be displayed here below.
+              </p>
+            </div>
           ) : (
             <div className='flex justify-center w-full'>
               <div className='grid grid-cols-1 md:grid-cols-2 sm:grid-cols-3 gap-2'>

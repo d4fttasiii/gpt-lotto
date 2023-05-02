@@ -21,6 +21,11 @@ const WalletConnector = ({ isBig, hasNetworkBtn }) => {
       if (detectedProvider) {
         try {
           await activate(injectedProvider);
+          const currentChainId = parseInt(detectedProvider.chainId, 16);
+          const targetNetwork = networks.find((network) => network.chainId === currentChainId);
+          if (!targetNetwork) {
+            await switchNetwork(networks[0].chainId);
+          }
         } catch (error) {
           console.error('Failed to connect MetaMask:', error);
         }
@@ -42,7 +47,8 @@ const WalletConnector = ({ isBig, hasNetworkBtn }) => {
 
   const switchNetwork = async (newChainId) => {
     try {
-      await injectedProvider.getProvider().request({
+      const provider = await injectedProvider.getProvider();
+      await provider.request({
         method: 'wallet_switchEthereumChain',
         params: [{ chainId: `0x${newChainId.toString(16)}` }],
       });
@@ -65,7 +71,7 @@ const WalletConnector = ({ isBig, hasNetworkBtn }) => {
             </span>
           </button>
           {showNetworks && (
-            <div className="absolute mt-2 bg-gray-800 shadow-lg rounded p-2 animate__animated animate__fadeInDown">
+            <div className="absolute mt-2 bg-gray-800 shadow-lg rounded p-2 animate__animated animate__flipInX">
               {networks.map((network) => (
                 <button
                   key={network.id}
@@ -82,7 +88,7 @@ const WalletConnector = ({ isBig, hasNetworkBtn }) => {
       <button
         className={`ml-2 ${active ? 'bg-green-500' : 'bg-gray-700'
           } text-white font-bold ${isBig ? 'py-4 px-6 rounded-xl' : 'px-4 py-2 rounded'}`}
-        onClick={handleClick}
+        onClick={() => handleClick()}
       >
         <FontAwesomeIcon icon={faWallet} />
         <span className='ml-2'>{active ? formatAddress(account) : 'Connect Wallet'}</span>

@@ -5,7 +5,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { SelectorService } from './services/selector.service';
 
 @Module({
-    imports: [CoreModule, ScheduleModule.forRoot()],
-    providers: [SelectorService]
+  imports: [CoreModule, ScheduleModule.forRoot()],
+  providers: [SelectorService],
 })
-export class SelectorModule { }
+export class SelectorModule {}

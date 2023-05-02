@@ -14,4 +14,4 @@ import { Web3Service } from './services/web3.service';
   providers: [Web3Service],
   exports: [Web3Service],
 })
-export class CoreModule { }
+export class CoreModule {}

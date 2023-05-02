@@ -56,7 +56,7 @@ const TicketForm = () => {
         <form onSubmit={handleSubmit}>
           <div className="grid grid-cols-3 sm:grid-cols-6 gap-x-4 gap-y-4">
             {numbers.map((number, index) => (
-              <div className='mb-4'>
+              <div key={index} className='mb-4'>
                 <input
                   key={index}
                   type="number"
