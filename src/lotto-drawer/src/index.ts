@@ -99,7 +99,7 @@ export const handler = async (event: any, context: any): Promise<any> => {
     }
 
     await drawWinningNumbers();
-    await waitForBlocks(5);
+    await waitForBlocks(10);
     await distributePrizes();
 
     return {

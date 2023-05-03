@@ -1,14 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@chainlink/contracts/src/v0.8/VRFConsumerBase.sol";
 import "./interfaces/ILottoToken.sol";
 
 contract LuckyShiba is VRFConsumerBase, Ownable {
-    using SafeMath for uint256;
-
     struct Round {
         uint256 roundId;
         uint256 ticketCount;
@@ -31,7 +28,7 @@ contract LuckyShiba is VRFConsumerBase, Ownable {
     uint256 public ticketPrice;
     uint256 public roundId;
     address public application;
-
+    bool public roundInProgress;
 
     mapping(uint256 => Round) public rounds;
 
@@ -60,16 +57,30 @@ contract LuckyShiba is VRFConsumerBase, Ownable {
         keyHash = _keyHash;
         fee = _fee;
         roundId = 1;
+        roundInProgress = true;
     }
 
     modifier onlyApplication() {
-        require(msg.sender == application, "Caller is not the application");
+        require(msg.sender == application, "Caller is not the application.");
+        _;
+    }
+
+    modifier onylWhenRoundInProgress() {
+        require(roundInProgress, "Round is not in progress.");
+        _;
+    }
+
+    modifier onylWhenRoundNotInProgress() {
+        require(!roundInProgress, "Round is still in progress.");
         _;
     }
 
     // Update the application address (only callable by the contract owner)
     function updateApplicationAddress(address newApplication) public onlyOwner {
-        require(newApplication != address(0), "New application address must not be zero address.");
+        require(
+            newApplication != address(0),
+            "New application address must not be zero address."
+        );
         application = newApplication;
     }
 
@@ -80,7 +91,9 @@ contract LuckyShiba is VRFConsumerBase, Ownable {
     }
 
     // Buy a ticket with 6 unique numbers, mint a token for the buyer
-    function buyTicket(uint8[] memory numbers) public payable {
+    function buyTicket(
+        uint8[] memory numbers
+    ) public payable onylWhenRoundInProgress {
         require(msg.value == ticketPrice, "Incorrect ticket price.");
         require(
             numbers.length == 6,
@@ -193,6 +206,7 @@ contract LuckyShiba is VRFConsumerBase, Ownable {
             "Not enough LINK to pay the fee."
         );
 
+        roundInProgress = false;
         lastRequestId = requestRandomness(keyHash, fee);
     }
 
@@ -304,9 +318,7 @@ contract LuckyShiba is VRFConsumerBase, Ownable {
         for (uint256 i = 1; i <= rounds[roundId].ticketCount; i++) {
             address player = rounds[roundId].tickets[i];
             uint256 playerTokenBalance = token.balanceOf(player);
-            totalTokensHeldByPlayers = totalTokensHeldByPlayers.add(
-                playerTokenBalance
-            );
+            totalTokensHeldByPlayers += playerTokenBalance;
         }
 
         // Distribute the token holder prize pool based on the number of tokens held by each player
@@ -391,6 +403,7 @@ contract LuckyShiba is VRFConsumerBase, Ownable {
 
     function _nextRound() private {
         roundId++;
+        roundInProgress = true;
     }
 
     // Sorts an array of numbers in ascending order using Bubble Sort

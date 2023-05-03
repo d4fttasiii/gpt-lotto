@@ -67,9 +67,19 @@ contract("Game", function ([owner, application, player1, player2]) {
     }
   });
 
-  it("Should draw winning numbers", async () => {
+  it("Should draw winning numbers and block ticket purchases during the process", async () => {
     // Retrieve requestId from event
     await game.drawWinningNumbers({ from : application});
+
+    try {
+      await game.buyTicket([1, 2, 3, 4, 5, 6], {
+        from: player1,
+        value: ticketPrice,
+      });
+      assert.fail("Expected revert not received");
+    } catch (error) {
+      expect(error.message).to.include("Round is not in progress");
+    }
 
     // Getting the last request id
     const requestId = await game.lastRequestId();

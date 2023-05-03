@@ -1,5 +1,5 @@
 export const ContractAddresses = {
-    LuckyShiba: "0xa84b334b3efDfC95106eeDe0E0B0b9Ccc6Bdf7Fd",
-    LuckyShibaToken: "0x104359bfF9C0136552E1DC630506ecbFA37Acc0B",
-    LuckyShibaReserve: "0xaa31d9957B0F5458b8bf0672a1a8067385ffD66C"
+    LuckyShiba: "0x69702faDF7Fd786288B35FFe805aCFDBBFD97eF3",
+    LuckyShibaToken: "0xd9C5DaF453dd8DaC017651878Cbd3016e57B4556",
+    LuckyShibaReserve: "0xF42F6f4A2E2Ffdfb1e4514fA36519c8abf2fee40"
 };
