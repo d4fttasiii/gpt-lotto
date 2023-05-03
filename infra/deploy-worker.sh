@@ -1,1 +1,0 @@
-aws ecs update-service --cluster lucky-shiba --service worker2 --force-new-deployment
