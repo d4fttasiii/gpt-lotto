@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  
   "scripts": {
     "prebuild": "rimraf dist && rimraf lotto-drawer.zip",
     "build": "npx tsc && cp ./package.json ./package-lock.json ./dist && cd dist && npm install --production && zip -r ../lotto-drawer.zip ./*",
@@ -13,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bn.js": "^5.2.1",
     "web3": "^1.9.0"
   },
   "devDependencies": {

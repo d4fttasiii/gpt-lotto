@@ -254,6 +254,7 @@ contract LuckyShiba is VRFConsumerBase, Ownable {
             rounds[roundId].winningNumbers.length == 6,
             "Winning numbers have not been drawn yet."
         );
+        require(randomResult > 0, "Randomness was not provided correctly");
         // Update the winners
         _updateWinners();
 
@@ -404,6 +405,7 @@ contract LuckyShiba is VRFConsumerBase, Ownable {
     function _nextRound() private {
         roundId++;
         roundInProgress = true;
+        randomResult = 0;
     }
 
     // Sorts an array of numbers in ascending order using Bubble Sort

@@ -8,7 +8,6 @@ const TicketForm = () => {
   const { showSnackBar } = useSnackBar();
   const { account, library } = useWeb3React();
   const [numbers, setNumbers] = useState(Array(6).fill(''));
-  const [errorMessage, setErrorMessage] = useState('');
 
   const handleNumberChange = (e, index) => {
     const newNumbers = [...numbers];
@@ -21,18 +20,16 @@ const TicketForm = () => {
     const uniqueNumbers = [...new Set(numbers.map(Number))];
 
     if (uniqueNumbers.length !== 6) {
-      setErrorMessage('Please enter 6 unique numbers.');
+      showSnackBar('Please enter 6 unique numbers.', 'error');
       return;
     }
 
     for (const number of uniqueNumbers) {
       if (number < 1 || number > 50) {
-        setErrorMessage('All numbers should be between 1 and 50.');
+        showSnackBar('All numbers should be between 1 and 50.', 'error');
         return;
       }
     }
-
-    setErrorMessage('');
 
     try {
       const lottoContractInstance = getLottoContractInstance(library, account);
@@ -41,7 +38,7 @@ const TicketForm = () => {
 
       showSnackBar('Ticket purchased', 'success');
     } catch (error) {
-      setErrorMessage('Error purchasing ticket: ' + error.message);
+      showSnackBar(error?.reason, 'error');
     }
   };
 
@@ -80,11 +77,6 @@ const TicketForm = () => {
             </button>
           </div>
         </form>
-        {errorMessage && (
-          <p className="mt-2 text-red-600">
-            {errorMessage}
-          </p>
-        )}
       </div>
     </div>
   );

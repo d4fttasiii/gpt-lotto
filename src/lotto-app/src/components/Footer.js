@@ -17,7 +17,7 @@ const Footer = () => {
             <FontAwesomeIcon icon={faGithub} size="lg" />
           </a>
           <a
-            href="https://twitter.com/your-twitter-handle"
+            href="https://twitter.com/d4fttasiii"
             target="_blank"
             rel="noopener noreferrer"
             className="text-blue-400 hover:text-blue-800 transition-colors duration-200"

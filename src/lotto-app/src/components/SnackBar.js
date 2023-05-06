@@ -33,7 +33,7 @@ const SnackBar = ({ message, type = 'info', duration = 3000, onClose }) => {
 
   return (
     <div
-      className={`fixed bottom-4 font-bold right-4 p-4 rounded text-white shadow-md animate__animated animate__slideInUp ${bgColor}`}
+      className={`w-80 sm:w-96 fixed bottom-4 font-bold right-4 p-4 rounded text-white shadow-md animate__animated animate__slideInUp ${bgColor}`}
       role="alert"
     >
       {message}

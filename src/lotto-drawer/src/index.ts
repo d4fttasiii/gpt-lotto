@@ -1,5 +1,6 @@
 // Load the AWS SDK for Node.js
 import Web3 from 'web3';
+import BN from 'bn.js';
 import LuckyShibaConfig from './configuration';
 import { LUCKY_SHIBA } from './abis/lucky-shiba';
 
@@ -13,6 +14,11 @@ const luckyShiba = new web3.eth.Contract(
 const getTicketNumbers = async (): Promise<number> => {
   const ticketNumbers = await luckyShiba.methods.getTicketCount().call();
   return parseInt(ticketNumbers, 10);
+};
+
+const getRandomResult = async (): Promise<BN> => {
+  const randomResult = await luckyShiba.methods.randomResult().call();
+  return new BN(randomResult);
 };
 
 const drawWinningNumbers = async () => {
@@ -59,26 +65,23 @@ const distributePrizes = async () => {
   console.log(`Winning numbers have been drawn `, result.transactionHash);
 };
 
-const waitForBlocks = async (n: number) => {
-  const initialBlockNumber = await web3.eth.getBlockNumber();
-  const targetBlockNumber = initialBlockNumber + n;
+const waitForRandomness = async () => {
 
-  console.log(`Initial block number: ${initialBlockNumber}`);
-  console.log(`Waiting for ${n} blocks...`);
+  console.log(`Waiting for randomResult to arrive...`);
 
   return new Promise<void>((resolve) => {
-    const checkForNewBlocks = async () => {
-      const currentBlockNumber = await web3.eth.getBlockNumber();
+    const checkForRandomResult = async () => {
+      const randomResult = await getRandomResult();
 
-      if (currentBlockNumber >= targetBlockNumber) {
-        console.log(`Target block number (${targetBlockNumber}) reached!`);
+      if (randomResult > new BN(0)) {
+        console.log(`RandomResult arrived: ${randomResult.toString()}!`);
         resolve();
       } else {
-        setTimeout(checkForNewBlocks, 5000); // Check every 5 seconds.
+        setTimeout(checkForRandomResult, 15000); // Check every 15 seconds.
       }
     };
 
-    checkForNewBlocks();
+    checkForRandomResult();
   });
 };
 
@@ -99,7 +102,7 @@ export const handler = async (event: any, context: any): Promise<any> => {
     }
 
     await drawWinningNumbers();
-    await waitForBlocks(10);
+    await waitForRandomness();
     await distributePrizes();
 
     return {
